@@ -90,7 +90,27 @@ const App: React.FC = () => {
         }
       });
     };
-    
+
+    const enlargeSnake = () => {
+      let newSkake = [...snakeDots];
+      newSkake.unshift([]);
+      setSnakeDots(newSkake);
+    }
+
+    const increaseSpeed = () => {
+      if (speed > 10) {
+        setSpeed(speed - 10);
+      };
+    }
+
+    const checkIfEat = () => {
+      let head = snakeDots[snakeDots.length - 1];
+      if (head[0] === food[0] && head[1] === food[1]) {
+        setFood(getRandomCoordinates());
+        enlargeSnake();
+        increaseSpeed();
+      } 
+    }
   })
 
 }
