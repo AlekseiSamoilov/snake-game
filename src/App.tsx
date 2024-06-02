@@ -19,7 +19,7 @@ const App: React.FC = () => {
   const [food, setFood] = useState<number[]>(getRandomCoordinates);
   const [direction, setDirection] = useState<string>('RIGHT');
   const [speed, setSpeed] = useState<number>(200);
-  const [gameOver, setGameOver] = useState<boolean>(false);
+  const [gameOver, setIsGameOver] = useState<boolean>(false);
 
   useEffect(() => { 
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -71,6 +71,27 @@ const App: React.FC = () => {
       return clearInterval(interval)
     }
   }, [snakeDots, direction, gameOver, speed]);
+
+  useEffect(() => {
+    const chekIfOutOfBorders = () => {
+      let head = snakeDots[snakeDots.length - 1];
+      if (head[0] >= 100 || head[0] < 0 || head[1] >= 100 || head[1] < 0) {
+        setIsGameOver(true);
+      }
+    };
+
+    const checkIfCollapsed = () => {
+      let snake = [...snakeDots];
+      let head = snake[snake.length - 1];
+      snake.pop();
+      snake.forEach(dot => {
+        if(head[0] === dot[0] && head[1] === dot[1]) {
+          setIsGameOver(true);
+        }
+      });
+    };
+    
+  })
 
 }
 
