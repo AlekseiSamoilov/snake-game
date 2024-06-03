@@ -19,7 +19,7 @@ const App: React.FC = () => {
   const [food, setFood] = useState<number[]>(getRandomCoordinates);
   const [direction, setDirection] = useState<string>('RIGHT');
   const [speed, setSpeed] = useState<number>(200);
-  const [gameOver, setIsGameOver] = useState<boolean>(false);
+  const [isGameOver, setIsGameOver] = useState<boolean>(false);
 
   useEffect(() => { 
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -66,11 +66,11 @@ const App: React.FC = () => {
       dots.shift();
       setSnakeDots(dots);
     };
-    if (!gameOver) {
+    if (!isGameOver) {
       const interval = setInterval(snakeMove, speed);
       return clearInterval(interval)
     }
-  }, [snakeDots, direction, gameOver, speed]);
+  }, [snakeDots, direction, isGameOver, speed]);
 
   useEffect(() => {
     const chekIfOutOfBorders = () => {
@@ -111,8 +111,35 @@ const App: React.FC = () => {
         increaseSpeed();
       } 
     }
-  })
+  }, [snakeDots, food, speed]);
 
-}
+
+  const resetGame = () => {
+    setSnakeDots([
+      [0, 0],
+      [2, 0]
+    ]);
+
+    setFood(getRandomCoordinates());
+    setDirection('RIGHT');
+    setSpeed(200);
+    setIsGameOver(false);
+  };
+  return(
+    <div className="game-area">
+      {isGameOver ? (
+        <div className="game-over">
+          Game Over
+          <button onClick={resetGame}>Play Again</button>
+        </div>
+      ) : (
+        <>
+          <Snake snakeDots={snakeDots} />
+          <Food dot={food} />
+        </>
+      )}
+    </div>
+  );
+};
 
 export default App;
