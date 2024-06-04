@@ -1,4 +1,4 @@
-import style from "snake.module.css"
+import style from "./snake.module.css"
 
 interface ISnakeProps {
     snakeDots: number[][];

@@ -1,0 +1,6 @@
+.snake_dot {
+    position: absolute;
+    width: 2%;
+    height: 2%;
+    background-color: green;
+  }

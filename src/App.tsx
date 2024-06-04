@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Snake from "./components/snake/snake";
 import Food from "./components/food/food";
-import style from 'app.module.css';
+import style from './app.module.css';
 
 const getRandomCoordinates = () => {
   const min = 1;
@@ -126,11 +126,11 @@ const App: React.FC = () => {
     setIsGameOver(false);
   };
   return(
-    <div className="game-area">
+    <div className={style.game_area}>
       {isGameOver ? (
-        <div className="game-over">
+        <div className={style.game_over}>
           Game Over
-          <button onClick={resetGame}>Play Again</button>
+          <button className={style.start_btn} onClick={resetGame}>Play Again</button>
         </div>
       ) : (
         <>
