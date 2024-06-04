@@ -16,7 +16,7 @@ const App: React.FC = () => {
     [0, 2],
     [2, 0]
   ]);
-  const [food, setFood] = useState<number[]>(getRandomCoordinates);
+  const [food, setFood] = useState<number[]>(getRandomCoordinates());
   const [direction, setDirection] = useState<string>('RIGHT');
   const [speed, setSpeed] = useState<number>(200);
   const [isGameOver, setIsGameOver] = useState<boolean>(false);
@@ -27,7 +27,7 @@ const App: React.FC = () => {
         case "ArrowUp":
           setDirection("UP");
           break;
-        case "ArroDown":
+        case "ArrowDown":
           setDirection("DOWN");
           break;
         case "ArrowLeft":
@@ -68,7 +68,7 @@ const App: React.FC = () => {
     };
     if (!isGameOver) {
       const interval = setInterval(snakeMove, speed);
-      return clearInterval(interval)
+      return () => clearInterval(interval)
     }
   }, [snakeDots, direction, isGameOver, speed]);
 
@@ -111,6 +111,9 @@ const App: React.FC = () => {
         increaseSpeed();
       } 
     }
+    chekIfOutOfBorders();
+    checkIfCollapsed();
+    checkIfEat();
   }, [snakeDots, food, speed]);
 
 
