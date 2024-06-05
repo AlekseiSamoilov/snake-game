@@ -2,5 +2,19 @@
     position: absolute;
     width: 2%;
     height: 2%;
-    background-color: red;
+    background-color: rgb(255, 0, 0);
+    animation: glow 1s infinite;
+    border-radius: 10px;
+  }
+
+  @keyframes glow {
+    0% {
+      box-shadow: 0 0 10px rgb(201, 16, 16);
+    }
+    50% {
+      box-shadow: 0 0 20px red;
+    }
+    100% {
+      box-shadow: 0 0 5px red;
+    }
   }

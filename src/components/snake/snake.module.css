@@ -3,4 +3,16 @@
     width: 2%;
     height: 2%;
     background-color: green;
+    border-radius: 10px;
+    border: solid 2px rgb(0, 0, 0);
+    animation: fadeOut 0.5s forwards;
   }
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.5;
+  }
+}
