@@ -1,4 +1,5 @@
 .game_area {
+  margin: 0 auto;
   position: relative;
   width: 500px;
   height: 500px;

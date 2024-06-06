@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Snake from "./components/snake/snake";
 import Food from "./components/food/food";
 import style from './app.module.css';
+import Modal from "./components/Modal/modal";
 
 const getRandomCoordinates = () => {
   const min = 1;
@@ -20,6 +21,7 @@ const App: React.FC = () => {
   const [direction, setDirection] = useState<string>('RIGHT');
   const [speed, setSpeed] = useState<number>(200);
   const [isGameOver, setIsGameOver] = useState<boolean>(false);
+  const [showStartModal, setShowStartModal] = useState<boolean>(true);
 
   useEffect(() => { 
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -66,11 +68,11 @@ const App: React.FC = () => {
       dots.shift();
       setSnakeDots(dots);
     };
-    if (!isGameOver) {
+    if (!isGameOver && !showStartModal) {
       const interval = setInterval(snakeMove, speed);
-      return () => clearInterval(interval)
+      return () => clearInterval(interval);
     }
-  }, [snakeDots, direction, isGameOver, speed]);
+  }, [snakeDots, direction, isGameOver, speed, showStartModal]);
 
   useEffect(() => {
     const chekIfOutOfBorders = () => {
@@ -115,7 +117,10 @@ const App: React.FC = () => {
     checkIfCollapsed();
     checkIfEat();
   }, [snakeDots, food, speed]);
-
+  
+  const startGame = () => {
+    setShowStartModal(false);
+  };
 
   const resetGame = () => {
     setSnakeDots([
@@ -130,12 +135,19 @@ const App: React.FC = () => {
   };
   return(
     <div className={style.game_area}>
-      {isGameOver ? (
-        <div className={style.game_over}>
-          Game Over
-          <button className={style.start_btn} onClick={resetGame}>Play Again</button>
-        </div>
-      ) : (
+      <Modal
+        show={showStartModal}
+        title="Start Game"
+        buttonText="Start"
+        onClick={startGame}
+      />
+      <Modal
+        show={isGameOver}
+        title="Game Over"
+        buttonText="Play Again"
+        onClick={resetGame}
+      />
+      {!isGameOver && !showStartModal && (
         <>
           <Snake snakeDots={snakeDots} />
           <Food dot={food} />
