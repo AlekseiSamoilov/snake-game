@@ -33,7 +33,7 @@ const App: React.FC = () => {
           if (direction !== 'DOWN')
           setDirection("UP");
           break;
-        case "ArrowDown":
+        case "ArrowDown" || "S":
           if (direction !== "UP")
           setDirection("DOWN");
           break;
