@@ -11,7 +11,7 @@
   }
   
   .modal {
-    background: white;
+    background: rgb(117, 176, 45);
     padding: 20px;
     border-radius: 8px;
     width: 250px;
@@ -26,4 +26,16 @@
     padding: 10px 20px;
     font-size: 16px;
     margin-top: 20px;
+    width: 120px;
+    background-color: rgba(244, 40, 40, 0.5);
+    border: none;
+    border-radius: 5px;
+  }
+  .button:hover {
+    background-color: rgb(235, 18, 18);
+  }
+
+  .title {
+    text-transform: capitalize;
+    color: green
   }

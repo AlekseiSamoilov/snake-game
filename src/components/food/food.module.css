@@ -2,9 +2,9 @@
     position: absolute;
     width: 2%;
     height: 2%;
-    background-color: rgb(255, 0, 0);
+    background-color: rgb(234, 8, 8);
     animation: glow 1s infinite;
-    border-radius: 10px;
+    /* border-radius: 10px; */
   }
 
   @keyframes glow {

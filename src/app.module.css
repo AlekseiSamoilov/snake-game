@@ -1,39 +1,12 @@
 .game_area {
   margin: 0 auto;
   position: relative;
-  width: 500px;
-  height: 500px;
+  width: 650px;
+  height: 650px;
   border: 1px solid black;
   margin: 50px auto;
-  background: lightgray;
+  background: rgb(151, 215, 151);
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-
-.game_over {
-  text-transform: capitalize;
-  text-align: center;
-  font-size: 40px;
-  color: rgb(123, 67, 67);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.start_btn {
-  border: none;
-  width: 150px;
-  height: 50px;
-  background-color: rgb(135, 213, 227);
-  font-size: 15px;
-  color: rgb(123, 67, 67);
-}
-
-.start_btn:hover {
-  background-color: blueviolet;
-  color: white;
 }

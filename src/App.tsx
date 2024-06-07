@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Snake from "./components/snake/snake";
 import Food from "./components/food/food";
 import style from './app.module.css';
@@ -22,21 +22,31 @@ const App: React.FC = () => {
   const [speed, setSpeed] = useState<number>(200);
   const [isGameOver, setIsGameOver] = useState<boolean>(false);
   const [showStartModal, setShowStartModal] = useState<boolean>(true);
+  const [isPaused, setIsPaused] = useState<boolean>(false);
+  const originalSpeedRef = useRef<number>(speed); 
+  const speedTimeoutRef = useRef<number | null>(null); 
 
   useEffect(() => { 
     const handleKeyDown = (e: KeyboardEvent) => {
       switch(e.key) {
         case "ArrowUp":
+          if (direction !== 'DOWN')
           setDirection("UP");
           break;
         case "ArrowDown":
+          if (direction !== "UP")
           setDirection("DOWN");
           break;
         case "ArrowLeft":
+          if (direction !== 'RIGHT')
           setDirection("LEFT");
           break;
         case "ArrowRight":
+          if (direction !== 'LEFT')
           setDirection("RIGHT");
+          break;
+        case " ":
+          setIsPaused(!isPaused);
           break;
       }
     };
@@ -44,7 +54,7 @@ const App: React.FC = () => {
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
     };
-  }, [])
+  }, [direction, isPaused])
 
   useEffect(() => {
     const snakeMove = () => {
@@ -64,21 +74,43 @@ const App: React.FC = () => {
           head = [head[0], head[1] + 2];
           break;
       }
+
+    // if (head[0] >= 100) head[0] = 0;
+    // if (head[0] < 0) head[0] = 98;
+    // if (head[1] >= 100) head[1] = 0;
+    // if (head[1] < 0) head[1] = 98;
+
       dots.push(head);
       dots.shift();
       setSnakeDots(dots);
     };
-    if (!isGameOver && !showStartModal) {
+    if (!isGameOver && !showStartModal && isPaused) {
       const interval = setInterval(snakeMove, speed);
       return () => clearInterval(interval);
     }
-  }, [snakeDots, direction, isGameOver, speed, showStartModal]);
+  }, [snakeDots, direction, isGameOver, speed, showStartModal, isPaused]);
 
   useEffect(() => {
-    const chekIfOutOfBorders = () => {
+    const checkIfOutOfBorders = () => {
       let head = snakeDots[snakeDots.length - 1];
       if (head[0] >= 100 || head[0] < 0 || head[1] >= 100 || head[1] < 0) {
-        setIsGameOver(true);
+        if (speed !== 50) {
+          originalSpeedRef.current = speed; 
+          setSpeed(50); 
+        }
+        if (speedTimeoutRef.current !== null) {
+          clearTimeout(speedTimeoutRef.current);
+          speedTimeoutRef.current = null;
+        }
+      } else {
+        if (speed === 50) {
+          if (speedTimeoutRef.current === null) {
+            speedTimeoutRef.current = window.setTimeout(() => {
+              setSpeed(originalSpeedRef.current); 
+              speedTimeoutRef.current = null;
+            }, 2000); 
+          }
+        }
       }
     };
 
@@ -101,7 +133,7 @@ const App: React.FC = () => {
 
     const increaseSpeed = () => {
       if (speed > 10) {
-        setSpeed(speed - 10);
+        setSpeed(speed - 3);
       };
     }
 
@@ -113,13 +145,14 @@ const App: React.FC = () => {
         increaseSpeed();
       } 
     }
-    chekIfOutOfBorders();
+    checkIfOutOfBorders();
     checkIfCollapsed();
     checkIfEat();
   }, [snakeDots, food, speed]);
   
   const startGame = () => {
     setShowStartModal(false);
+    setIsPaused(!isPaused);
   };
 
   const resetGame = () => {
@@ -127,11 +160,12 @@ const App: React.FC = () => {
       [0, 0],
       [2, 0]
     ]);
-
+    setIsPaused(false);
     setFood(getRandomCoordinates());
     setDirection('RIGHT');
     setSpeed(200);
     setIsGameOver(false);
+    
   };
   return(
     <div className={style.game_area}>

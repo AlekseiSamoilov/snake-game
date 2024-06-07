@@ -2,10 +2,12 @@
     position: absolute;
     width: 2%;
     height: 2%;
-    background-color: green;
-    border-radius: 10px;
-    border: solid 2px rgb(0, 0, 0);
-    animation: fadeOut 0.5s forwards;
+    background-color: rgb(25, 75, 25);
+    /* border-radius: 3px; */
+    border: solid 0.5px rgb(16, 243, 43);
+    animation: fadeOut 1s infinite;
+    /* box-shadow: 0 0 20px rgb(123, 0, 255); */
+
   }
 
 @keyframes fadeOut {
@@ -13,6 +15,6 @@
     opacity: 1;
   }
   100% {
-    opacity: 0.5;
+    opacity: 0.4;
   }
 }
