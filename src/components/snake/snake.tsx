@@ -1,4 +1,4 @@
-import style from "./snake.module.css"
+import style from "./Snake.module.css"
 
 interface ISnakeProps {
     snakeDots: number[][];
@@ -14,4 +14,4 @@ const Snake: React.FC<ISnakeProps> = ({ snakeDots }) => {
     )
 };
 
-export default Snake;
+export default Snake; 

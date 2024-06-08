@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import Snake from "./components/snake/snake";
-import Food from "./components/food/food";
+import Snake from "./components/Snake/Snake";
+import Food from "./components/Food/Food";
 import style from './app.module.css';
 import Modal from "./components/Modal/modal";
 
@@ -74,11 +74,6 @@ const App: React.FC = () => {
           head = [head[0], head[1] + 2];
           break;
       }
-
-    // if (head[0] >= 100) head[0] = 0;
-    // if (head[0] < 0) head[0] = 98;
-    // if (head[1] >= 100) head[1] = 0;
-    // if (head[1] < 0) head[1] = 98;
 
       dots.push(head);
       dots.shift();
@@ -168,6 +163,7 @@ const App: React.FC = () => {
     
   };
   return(
+    <div className={style.out_area}>
     <div className={style.game_area}>
       <Modal
         show={showStartModal}
@@ -187,6 +183,7 @@ const App: React.FC = () => {
           <Food dot={food} />
         </>
       )}
+    </div>
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import style from "./food.module.css"
+import style from "./Food.module.css"
 
 interface IFoodProps {
     dot: number[];
