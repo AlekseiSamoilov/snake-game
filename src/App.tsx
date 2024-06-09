@@ -15,7 +15,7 @@ const getRandomCoordinates = () => {
 const App: React.FC = () => {
   const [snakeDots, setSnakeDots] = useState<number[][]>([
     [0, 2],
-    [2, 0]
+    [2, 0] 
   ]);
   const [food, setFood] = useState<number[]>(getRandomCoordinates());
   const [direction, setDirection] = useState<string>('RIGHT');
@@ -25,6 +25,7 @@ const App: React.FC = () => {
   const [isPaused, setIsPaused] = useState<boolean>(false);
   const originalSpeedRef = useRef<number>(speed); 
   const speedTimeoutRef = useRef<number | null>(null); 
+  const [addpoint, setaddPoint] = useState<number>(0)
 
   useEffect(() => { 
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -138,6 +139,7 @@ const App: React.FC = () => {
         setFood(getRandomCoordinates());
         enlargeSnake();
         increaseSpeed();
+        setaddPoint(addpoint + 1);
       } 
     }
     checkIfOutOfBorders();
@@ -160,10 +162,10 @@ const App: React.FC = () => {
     setDirection('RIGHT');
     setSpeed(200);
     setIsGameOver(false);
+    setaddPoint(0)
     
   };
   return(
-    <div className={style.out_area}>
     <div className={style.game_area}>
       <Modal
         show={showStartModal}
@@ -183,8 +185,10 @@ const App: React.FC = () => {
           <Food dot={food} />
         </>
       )}
+      <div className={style.point_window}>{addpoint}</div>
+      <div className={style.speed_window}>{speed}</div>
     </div>
-    </div>
+    
   );
 };
 

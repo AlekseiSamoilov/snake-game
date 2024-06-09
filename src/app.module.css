@@ -1,12 +1,30 @@
 .game_area {
+  padding: 0;
   margin: 0 auto;
   position: relative;
   width: 650px;
   height: 650px;
-  border: 1px solid black;
+  border: 3px solid black;
   margin: 50px auto;
   background: rgb(151, 215, 151);
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.point_window {
+  margin: 0;
+  position: absolute;
+  font-size: 150px;
+  opacity: 0.3;
+  color: rgb(57, 125, 11);
+  /* box-shadow: 0 20px 20px rgb(5, 83, 7); */
+}
+
+.speed_window {
+  position: absolute;
+  font-size: 20px;
+  opacity: 0.3;
+  color: rgb(57, 125, 11);
+  top: 450px;
 }

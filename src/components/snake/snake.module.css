@@ -7,6 +7,7 @@
     border: solid 0.5px rgb(16, 243, 43);
     animation: fadeOut 1s infinite;
     /* box-shadow: 0 0 20px rgb(123, 0, 255); */
+    z-index: 10;
 
   }
 

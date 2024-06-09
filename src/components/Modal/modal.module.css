@@ -8,6 +8,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 5;
   }
   
   .modal {
@@ -20,6 +21,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    z-index: 3;
   }
   
   .button {
