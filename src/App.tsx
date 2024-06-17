@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import Snake from "./components/Snake/Snake";
 import Food from "./components/Food/Food";
 import style from './app.module.css';
@@ -19,13 +19,12 @@ const App: React.FC = () => {
   ]);
   const [food, setFood] = useState<number[]>(getRandomCoordinates());
   const [direction, setDirection] = useState<string>('RIGHT');
-  const [speed, setSpeed] = useState<number>(200);
+  const [speed, setSpeed] = useState<number>(300);
   const [isGameOver, setIsGameOver] = useState<boolean>(false);
   const [showStartModal, setShowStartModal] = useState<boolean>(true);
   const [isPaused, setIsPaused] = useState<boolean>(false);
-  const originalSpeedRef = useRef<number>(speed); 
-  const speedTimeoutRef = useRef<number | null>(null); 
-  const [addpoint, setaddPoint] = useState<number>(0)
+  const [addpoint, setaddPoint] = useState<number>(0);
+  const [path, setPath] = useState<number[][]>([]);
 
   useEffect(() => { 
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -76,6 +75,12 @@ const App: React.FC = () => {
           break;
       }
 
+      if (head[0] >= 100) head[0] = 0;
+      if (head[0] < 0) head[0] = 98;
+      if (head[1] >= 100) head[1] = 0;
+      if (head[1] < 0) head[1] = 98;
+
+
       dots.push(head);
       dots.shift();
       setSnakeDots(dots);
@@ -87,28 +92,6 @@ const App: React.FC = () => {
   }, [snakeDots, direction, isGameOver, speed, showStartModal, isPaused]);
 
   useEffect(() => {
-    const checkIfOutOfBorders = () => {
-      let head = snakeDots[snakeDots.length - 1];
-      if (head[0] >= 100 || head[0] < 0 || head[1] >= 100 || head[1] < 0) {
-        if (speed !== 50) {
-          originalSpeedRef.current = speed; 
-          setSpeed(50); 
-        }
-        if (speedTimeoutRef.current !== null) {
-          clearTimeout(speedTimeoutRef.current);
-          speedTimeoutRef.current = null;
-        }
-      } else {
-        if (speed === 50) {
-          if (speedTimeoutRef.current === null) {
-            speedTimeoutRef.current = window.setTimeout(() => {
-              setSpeed(originalSpeedRef.current); 
-              speedTimeoutRef.current = null;
-            }, 2000); 
-          }
-        }
-      }
-    };
 
     const checkIfCollapsed = () => {
       let snake = [...snakeDots];
@@ -122,14 +105,14 @@ const App: React.FC = () => {
     };
 
     const enlargeSnake = () => {
-      let newSkake = [...snakeDots];
-      newSkake.unshift([]);
-      setSnakeDots(newSkake);
+      let newSnake = [...snakeDots];
+      newSnake.unshift([]);
+      setSnakeDots(newSnake);
     }
 
     const increaseSpeed = () => {
       if (speed > 10) {
-        setSpeed(speed - 3);
+        setSpeed(speed - 2);
       };
     }
 
@@ -142,10 +125,57 @@ const App: React.FC = () => {
         setaddPoint(addpoint + 1);
       } 
     }
-    checkIfOutOfBorders();
+
+    
     checkIfCollapsed();
     checkIfEat();
   }, [snakeDots, food, speed]);
+
+  useEffect(() => {
+    const findPath = () => {
+      const start = snakeDots[snakeDots.length - 1];
+      const goal = food;
+      const queue: number[][][] = [[start]];
+      const visited: Set<string> = new Set();
+      visited.add(start.toString());
+
+      while (queue.length > 0) {
+        const path = queue.shift();
+        if (path) {
+          const node = path[path.length - 1];
+
+          if (node[0] === goal[0] && node[1] === goal[1]) {
+            setPath(path);
+            return;
+          }
+
+          const neighbors = [
+            [node[0] + 2, node[1]],
+            [node[0] - 2, node[1]],
+            [node[0], node[1] + 2],
+            [node[0], node[1] - 2]
+          ];
+
+          for (const neighbor of neighbors) {
+            if (
+              neighbor[0] >= 0 && neighbor[0] < 100 &&
+              neighbor[1] >= 0 && neighbor[1] < 100 &&
+              !visited.has(neighbor.toString())
+            ) {
+              visited.add(neighbor.toString());
+              queue.push([...path, neighbor]);
+            }
+          }
+        }
+      }
+    };
+
+    if (!isGameOver && !showStartModal) {
+      findPath();
+    }
+    console.log('path callig')
+  }, [snakeDots, food, isGameOver, showStartModal]);
+
   
   const startGame = () => {
     setShowStartModal(false);
@@ -160,7 +190,7 @@ const App: React.FC = () => {
     setIsPaused(false);
     setFood(getRandomCoordinates());
     setDirection('RIGHT');
-    setSpeed(200);
+    setSpeed(300);
     setIsGameOver(false);
     setaddPoint(0)
     
@@ -183,6 +213,25 @@ const App: React.FC = () => {
         <>
           <Snake snakeDots={snakeDots} />
           <Food dot={food} />
+          <svg className={style.path_svg}>
+            {path.map((step, index) => {
+              if (index === 0) return null;
+              const prevStep = path[index - 1];
+              const offset = 1
+              return (
+                <line
+                  key={index}
+                  x1={`${prevStep[0] + offset}%`}
+                  y1={`${prevStep[1] + offset}%`}
+                  x2={`${step[0] + offset}%`}
+                  y2={`${step[1] + offset}%`}
+                  stroke="rgba(10, 58, 10, 0.1)"
+                  strokeWidth="3"
+                  strokeDasharray="5, 5"
+                />
+              );
+            })}
+          </svg>
         </>
       )}
       <div className={style.point_window}>{addpoint}</div>
