@@ -19,11 +19,10 @@ const App: React.FC = () => {
   ]);
   const [food, setFood] = useState<number[]>(getRandomCoordinates());
   const [direction, setDirection] = useState<string>('RIGHT');
-  const [speed, setSpeed] = useState<number>(300);
+  const [speed, setSpeed] = useState<number>(500);
   const [isGameOver, setIsGameOver] = useState<boolean>(false);
   const [showStartModal, setShowStartModal] = useState<boolean>(true);
   const [isPaused, setIsPaused] = useState<boolean>(false);
-  const [addpoint, setaddPoint] = useState<number>(0);
   const [path, setPath] = useState<number[][]>([]);
 
   useEffect(() => { 
@@ -49,6 +48,7 @@ const App: React.FC = () => {
           setIsPaused(!isPaused);
           break;
       }
+
     };
     document.addEventListener('keydown', handleKeyDown);
     return () => {
@@ -69,9 +69,11 @@ const App: React.FC = () => {
           break;
         case "UP":
           head = [head[0], head[1] - 2];
+          
           break;
         case "DOWN":
           head = [head[0], head[1] + 2];
+          
           break;
       }
 
@@ -108,13 +110,24 @@ const App: React.FC = () => {
       let newSnake = [...snakeDots];
       newSnake.unshift([]);
       setSnakeDots(newSnake);
-    }
+    };
 
     const increaseSpeed = () => {
-      if (speed > 10) {
-        setSpeed(speed - 2);
-      };
-    }
+      switch(true) {
+        case (speed > 300):
+          setSpeed(speed - 20);
+          break;
+        case (speed > 200):
+          setSpeed(speed - 5);
+          break;
+        case (speed > 120):
+          setSpeed(speed - 1);
+          break;
+        case (speed === 10):
+          setSpeed(10);
+          break;
+      }
+    };
 
     const checkIfEat = () => {
       let head = snakeDots[snakeDots.length - 1];
@@ -122,9 +135,8 @@ const App: React.FC = () => {
         setFood(getRandomCoordinates());
         enlargeSnake();
         increaseSpeed();
-        setaddPoint(addpoint + 1);
       } 
-    }
+    };
 
     
     checkIfCollapsed();
@@ -190,9 +202,8 @@ const App: React.FC = () => {
     setIsPaused(false);
     setFood(getRandomCoordinates());
     setDirection('RIGHT');
-    setSpeed(300);
+    setSpeed(500);
     setIsGameOver(false);
-    setaddPoint(0)
     
   };
   return(
@@ -234,8 +245,8 @@ const App: React.FC = () => {
           </svg>
         </>
       )}
-      <div className={style.point_window}>{addpoint}</div>
       <div className={style.speed_window}>{speed}</div>
+      <div className={style.point_window}>{snakeDots.length - 2}</div>
     </div>
     
   );

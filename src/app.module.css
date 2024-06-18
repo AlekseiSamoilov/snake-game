@@ -29,13 +29,6 @@
   top: 450px;
 }
 
-/* .path_step {
-    position: absolute;
-    width: 2%; 
-    height: 2%; 
-    box-shadow: 0 0 20px rgb(202, 93, 16);
-  } */
-
   .path_svg {
     position: absolute;
     top: 0;
