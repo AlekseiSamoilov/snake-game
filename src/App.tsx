@@ -12,6 +12,12 @@ const getRandomCoordinates = () => {
   return [x, y];
 }
 
+const getRandomFoodType = () => {
+  const foodTypes = ["blue", "red", "green", "yellow", "purple"];
+  const randomType = Math.floor(Math.random() * foodTypes.length);
+  return foodTypes[randomType];
+}
+
 const App: React.FC = () => {
   const [snakeDots, setSnakeDots] = useState<number[][]>([
     [0, 2],
@@ -24,6 +30,13 @@ const App: React.FC = () => {
   const [showStartModal, setShowStartModal] = useState<boolean>(true);
   const [isPaused, setIsPaused] = useState<boolean>(false);
   const [path, setPath] = useState<number[][]>([]);
+  const [foodType, setFoodType] = useState<string>(getRandomFoodType());
+  const [isInvisible, setIsInvisible] = useState<boolean>(false);
+  const [isBlinking, setIsBlinking] = useState<boolean>(false);
+  const [speedBoostActive, setSpeedBoostActive] = useState<boolean>(false); 
+  const [isFreez, setIsFreez] = useState<boolean>(false);
+  const [isHot, setIsHot] = useState<boolean>(false);
+
 
   useEffect(() => { 
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -113,35 +126,77 @@ const App: React.FC = () => {
     };
 
     const increaseSpeed = () => {
-      switch(true) {
-        case (speed > 300):
-          setSpeed(speed - 20);
-          break;
-        case (speed > 200):
-          setSpeed(speed - 5);
-          break;
-        case (speed > 120):
-          setSpeed(speed - 1);
-          break;
-        case (speed === 10):
-          setSpeed(10);
-          break;
+      if (!speedBoostActive) { // Изменение скорости только если флаг не активен
+        setSpeed((prevSpeed) => {
+          if (prevSpeed > 300) return prevSpeed - 20;
+          if (prevSpeed > 200) return prevSpeed - 5;
+          if (prevSpeed > 120) return prevSpeed - 1;
+          return 10; 
+        });
       }
     };
+
+    const applyFoodEffect = (type: string) => {
+      const currentSpeed = speed; 
+      switch (type) {
+        case "red":
+          setSpeed(speed / 2); 
+          setSpeedBoostActive(true); 
+          setIsHot(true);
+          setTimeout(() => {
+            setSpeed(currentSpeed);
+            setSpeedBoostActive(false); 
+            setIsHot(false)
+          }, 5000); 
+          break;
+        case "blue":
+          setSpeed(speed * 2); 
+          setSpeedBoostActive(true); 
+          setIsFreez(true);
+          setTimeout(() => {
+            setSpeed(currentSpeed);
+            setSpeedBoostActive(false);
+            setIsFreez(false) 
+          }, 5000); 
+          break;
+        case "green":
+          setIsBlinking(true); 
+          setTimeout(() => setIsBlinking(false), 10000); 
+          break;
+        case "yellow":
+          let newSnake = [...snakeDots];
+          newSnake.unshift([]);
+          newSnake.unshift([]);
+          newSnake.unshift([]);
+          setSnakeDots(newSnake);
+          break; 
+        case "purple":
+          setIsInvisible(true);  
+          setTimeout(() => setIsInvisible(false), 5000); 
+          break;
+        default:
+          break;
+      }
+    }
+
 
     const checkIfEat = () => {
       let head = snakeDots[snakeDots.length - 1];
       if (head[0] === food[0] && head[1] === food[1]) {
         setFood(getRandomCoordinates());
         enlargeSnake();
+        setFoodType(getRandomFoodType());
+        applyFoodEffect(foodType);
         increaseSpeed();
+        console.log(foodType)
       } 
+
     };
 
-    
     checkIfCollapsed();
     checkIfEat();
-  }, [snakeDots, food, speed]);
+  }, [snakeDots, food, speed, foodType]);
+
 
   useEffect(() => {
     const findPath = () => {
@@ -185,13 +240,13 @@ const App: React.FC = () => {
     if (!isGameOver && !showStartModal) {
       findPath();
     }
-    console.log('path callig')
   }, [snakeDots, food, isGameOver, showStartModal]);
 
   
   const startGame = () => {
     setShowStartModal(false);
     setIsPaused(!isPaused);
+    setFoodType(getRandomFoodType());
   };
 
   const resetGame = () => {
@@ -201,10 +256,13 @@ const App: React.FC = () => {
     ]);
     setIsPaused(false);
     setFood(getRandomCoordinates());
+    setFoodType(getRandomFoodType());
     setDirection('RIGHT');
     setSpeed(500);
     setIsGameOver(false);
-    
+    setIsInvisible(false);
+    setIsBlinking(false);
+    setPath([]);
   };
   return(
     <div className={style.game_area}>
@@ -222,8 +280,8 @@ const App: React.FC = () => {
       />
       {!isGameOver && !showStartModal && (
         <>
-          <Snake snakeDots={snakeDots} />
-          <Food dot={food} />
+         <Snake snakeDots={snakeDots} isInvisible={isInvisible} isBlinking={isBlinking} isFreez={isFreez} isHot={isHot} />
+         <Food dot={food} type={foodType} />
           <svg className={style.path_svg}>
             {path.map((step, index) => {
               if (index === 0) return null;

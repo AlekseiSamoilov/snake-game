@@ -1,4 +1,4 @@
-.snake_food {
+.food {
     position: absolute;
     width: 2%;
     height: 2%;
@@ -16,4 +16,24 @@
     100% {
       box-shadow: 0 0 5px red;
     }
+  }
+
+  .food.blue {
+    background-color: rgb(102, 202, 222);
+  }
+  
+  .food.red {
+    background-color: red;
+  }
+  
+  .food.green {
+    background-color: rgb(0, 109, 13);
+  }
+  
+  .food.yellow {
+    background-color: yellow;
+  }
+  
+  .food.purple {
+    background-color: purple;
   }
