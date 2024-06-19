@@ -4,6 +4,7 @@
     height: 2%;
     background-color: rgb(234, 8, 8);
     animation: glow 1s infinite;
+    border-radius: 3px;
   }
 
   @keyframes glow {

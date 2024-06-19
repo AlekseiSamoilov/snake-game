@@ -29,7 +29,7 @@
 .invisible {
   background-color: transparent;
   border: none;
-  animation: none;
+  animation: none; 
   box-shadow: 0 0 20px #59f81a
 }
 
@@ -38,14 +38,23 @@
 }
 
 @keyframes blinking {
-  0% { opacity: 1; }
-  20% { opacity: 0.5;}
+  0% { 
+    opacity: 1;
+    background-color: rgb(167, 211, 45);
+  }
+  20% { 
+    opacity: 0.2;
+    background-color: rgb(226, 43, 43);
+  }
   50% {
     opacity: 0;
-    box-shadow: 0 0 20px rgb(172, 116, 232)
+    
    }
    
-  100% { opacity: 1; }
+  100% { 
+    opacity: 1;
+    background-color: blueviolet;
+  }
 }
 
 .freez {
