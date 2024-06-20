@@ -3,6 +3,7 @@ import Snake from "./components/Snake/Snake";
 import Food from "./components/Food/Food";
 import style from './app.module.css';
 import Modal from "./components/Modal/modal";
+import React from "react";
 
 const getRandomCoordinates = () => {
   const min = 1;
@@ -34,7 +35,6 @@ const App: React.FC = () => {
   const [foodType, setFoodType] = useState<string>(getRandomFoodType());
   const [isInvisible, setIsInvisible] = useState<boolean>(false);
   const [isBlinking, setIsBlinking] = useState<boolean>(false);
-  // const [speedBoostActive, setSpeedBoostActive] = useState<boolean>(false); 
   const [isFreez, setIsFreez] = useState<boolean>(false);
   const [isHot, setIsHot] = useState<boolean>(false);
   const [activeEffects, setActiveEffects] = useState<string[]>([]);
@@ -317,9 +317,13 @@ const App: React.FC = () => {
         </>
       )}
       <div className={style.speed_window}>{speed}</div>
-      <div className={style.point_window}>{snakeDots.length - 2}</div>
       </div>
-      <div className={style.inform_box} />
+      <div className={style.inform_box}>
+      <h3>Current Result: {snakeDots.length - 2}</h3>
+        <h3>Best Result:</h3>
+        <h3>Game time: </h3>
+        <button>Table of result</button>
+      </div>
     </div>
     
   );

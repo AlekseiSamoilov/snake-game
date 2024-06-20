@@ -1,8 +1,9 @@
 .main_window {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   flex-direction: column;
+  gap: 10px;
 }
 
 .game_area {
@@ -11,22 +12,13 @@
   position: relative;
   width: 650px;
   height: 650px;
-  /* border: 3px solid black; */
+  border: 1px solid #296071;
   /* margin: 50px auto; */
-  margin-top: 50px;
-  background: rgb(139, 180, 159);
+  margin-top: 20px;
+  background: #5EC28F;
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-.point_window {
-  margin: 0;
-  position: absolute;
-  font-size: 150px;
-  opacity: 0.3;
-  color: rgb(57, 125, 11);
-  /* box-shadow: 0 20px 20px rgb(13, 70, 83); */
 }
 
 .speed_window {
@@ -47,8 +39,12 @@
   }
 
   .inform_box { 
-    position: relative;
+    border: 1px solid #296071;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     width: 650px;
-    border: 1px solid red;
     height: 50px;
+    background-color: #5EC28F;
   }
