@@ -2,39 +2,49 @@
     position: absolute;
     width: 2%;
     height: 2%;
-    background-color: rgb(234, 8, 8);
+    background-color: var(--food-color);
     animation: glow 1s infinite;
     border-radius: 3px;
   }
 
   @keyframes glow {
     0% {
-      box-shadow: 0 0 10px rgb(201, 16, 16);
+      box-shadow: 0 0 15px var(--glow-color)
     }
     50% {
-      box-shadow: 0 0 20px red;
+      box-shadow: 0 0 10px var(--glow-color-bright)
     }
     100% {
-      box-shadow: 0 0 5px red;
+      box-shadow: 0 0 10px var(--glow-color)
     }
   }
 
   .food.blue {
-    background-color: rgb(102, 202, 222);
+    --food-color: rgb(102, 202, 222);
+    --glow-color: rgb(240, 240, 240);
+    --glow-color-bright: rgb(0, 225, 255);
   }
   
   .food.red {
-    background-color: red;
+    --food-color: rgb(168, 43, 43);
+    --glow-color: rgb(255, 0, 0);
+    --glow-color-bright: rgb(255, 255, 255);
   }
-  
+   
   .food.green {
-    background-color: rgb(0, 109, 13);
-  }
+    --food-color: green;
+    --glow-color: rgb(13, 255, 0);
+    --glow-color-bright: rgb(255, 255, 255);
+  } 
   
   .food.yellow {
-    background-color: yellow;
+    --food-color: rgb(197, 197, 14);
+    --glow-color: rgb(247, 232, 33);
+    --glow-color-bright: rgb(255, 255, 255);
   }
   
   .food.purple {
-    background-color: purple;
+    --food-color: purple;
+    --glow-color: rgb(230, 0, 255);
+    --glow-color-bright: rgb(255, 255, 255);
   }
