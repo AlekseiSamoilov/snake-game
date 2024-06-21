@@ -7,13 +7,13 @@
 }
 
 .game_area {
+  /* border-radius: 6px; */
   padding: 0;
   margin: 0 auto;
   position: relative;
   width: 650px;
   height: 650px;
   border: 1px solid #296071;
-  /* margin: 50px auto; */
   margin-top: 20px;
   background: #5EC28F;
   display: flex;
@@ -40,11 +40,36 @@
 
   .inform_box { 
     border: 1px solid #296071;
-    padding: 0 20px;
+    padding: 0 10px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 650px;
+    width: 700px;
     height: 50px;
     background-color: #5EC28F;
+    /* border-radius: 6px; */
+  }
+
+  .table_button {
+    width: 90px;
+    height: 30px;
+    border-radius: 6px;
+    border: none;
+    background-color: #5EC28F;;
+    color:  #2F4858;
+    border: 2px solid #00A49A;
+    text-transform: uppercase;
+    font-size: 14px;
+    font-family: 'Undertale_Battle_Font';
+    font-weight: 800;
+  }
+
+  .table_button:hover {
+    background-color: aqua;
+  }
+
+  .info_text {
+    text-transform: uppercase;
+    font-size: 14px;
+    color:  #2F4858;
   }

@@ -4,18 +4,17 @@
     height: 2%;
     background-color: var(--food-color);
     animation: glow 1s infinite;
-    border-radius: 3px;
   }
 
   @keyframes glow {
     0% {
-      box-shadow: 0 0 15px var(--glow-color)
+      box-shadow: 0 0 5px var(--glow-color)
     }
     50% {
-      box-shadow: 0 0 10px var(--glow-color-bright)
+      box-shadow: 0 0 5px var(--glow-color-bright)
     }
     100% {
-      box-shadow: 0 0 10px var(--glow-color)
+      box-shadow: 0 0 5px var(--glow-color)
     }
   }
 

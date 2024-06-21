@@ -2,8 +2,10 @@ import { useEffect, useState } from "react";
 import Snake from "./components/Snake/Snake";
 import Food from "./components/Food/Food";
 import style from './app.module.css';
-import Modal from "./components/Modal/modal";
 import React from "react";
+import StartModal from "./components/Modal/StartModal";
+import EndModal from "./components/Modal/EndModal";
+import ResultModal from "./components/Modal/ResultModal";
 
 const getRandomCoordinates = () => {
   const min = 1;
@@ -38,6 +40,8 @@ const App: React.FC = () => {
   const [isFreez, setIsFreez] = useState<boolean>(false);
   const [isHot, setIsHot] = useState<boolean>(false);
   const [activeEffects, setActiveEffects] = useState<string[]>([]);
+  const [userName, setUserName] = useState<string>('');
+  const [isResult, setIsResult] = useState<boolean>(false);
 
 
   useEffect(() => { 
@@ -62,6 +66,11 @@ const App: React.FC = () => {
         case " ":
           setIsPaused(!isPaused);
           break;
+        case "к":
+        case "r":
+        case "R":
+          setIsResult(true);
+          break;
       }
 
     };
@@ -84,11 +93,9 @@ const App: React.FC = () => {
           break;
         case "UP":
           head = [head[0], head[1] - 2];
-          
           break;
         case "DOWN":
           head = [head[0], head[1] + 2];
-          
           break;
       }
 
@@ -102,7 +109,7 @@ const App: React.FC = () => {
       dots.shift();
       setSnakeDots(dots);
     };
-    if (!isGameOver && !showStartModal && isPaused) {
+    if (!isGameOver && !showStartModal && !isResult && isPaused) {
       const interval = setInterval(snakeMove, speed);
       return () => clearInterval(interval);
     }
@@ -141,12 +148,12 @@ const App: React.FC = () => {
       let newSpeed = baseSpeed;
       activeEffects.forEach(effect => {
         if (effect === 'speedUp') {
-          newSpeed /= 1.5;
+          newSpeed = 60;
         } else if (effect === 'speedDown') {
-          newSpeed *= 1.5;
+          newSpeed = 700; 
         }
       });
-      setSpeed(newSpeed);
+      setSpeed(newSpeed); 
     };
 
     const applyFoodEffect = (type: string) => {
@@ -169,7 +176,7 @@ const App: React.FC = () => {
           break;
         case "green":
           setIsBlinking(true); 
-          setTimeout(() => setIsBlinking(false), 10000); 
+          setTimeout(() => setIsBlinking(false), 7000); 
           break;
         case "yellow":
           let newSnake = [...snakeDots];
@@ -253,7 +260,8 @@ const App: React.FC = () => {
   }, [snakeDots, food, isGameOver, showStartModal]);
 
   
-  const startGame = () => {
+  const startGame = (name: string) => {
+    setUserName(name)
     setShowStartModal(false);
     setIsPaused(!isPaused);
     setFoodType(getRandomFoodType());
@@ -276,21 +284,43 @@ const App: React.FC = () => {
     setPath([]);
     setBaseSpeed(500);
   };
+
+  const handleNewUser = () => {
+    setUserName(' ');
+    setShowStartModal(true);
+    resetGame();
+  }
+
+  const handleClose = () => {
+    setIsResult(false);
+    setIsPaused(prev => !prev)
+    console.log(isPaused)
+  }
+
+  const handleResultOpen = () => {
+    setIsResult(true);
+    setIsPaused(true)
+    console.log(isPaused)
+  }
+
   return(
     <div className={style.main_window}>
       <div className={style.game_area}>
-      <Modal
+      <StartModal
         show={showStartModal}
-        title="Start Game"
-        buttonText="Start"
-        onClick={startGame}
+        onStart={startGame}
       />
-      <Modal
+      <EndModal
         show={isGameOver}
-        title="Game Over"
-        buttonText="Play Again"
-        onClick={resetGame}
+        score={snakeDots.length - 2}
+        onPlayAgain={resetGame}
+        onNewUser={handleNewUser}
       />
+      <ResultModal 
+        show={isResult}
+        score={snakeDots.length - 2}
+        name={userName}
+        onClose={handleClose} />
       {!isGameOver && !showStartModal && (
         <>
          <Snake snakeDots={snakeDots} isInvisible={isInvisible} isBlinking={isBlinking} isFreez={isFreez} isHot={isHot} />
@@ -319,10 +349,10 @@ const App: React.FC = () => {
       <div className={style.speed_window}>{speed}</div>
       </div>
       <div className={style.inform_box}>
-      <h3>Current Result: {snakeDots.length - 2}</h3>
-        <h3>Best Result:</h3>
-        <h3>Game time: </h3>
-        <button>Table of result</button>
+        <h4 className={style.info_text}>current result: {userName}:{snakeDots.length - 2}</h4>
+        <h4 className={style.info_text}>best result:</h4>
+        <h4 className={style.info_text}>game time: </h4>
+        <button className={style.table_button} onClick={handleResultOpen}>results</button>
       </div>
     </div>
     

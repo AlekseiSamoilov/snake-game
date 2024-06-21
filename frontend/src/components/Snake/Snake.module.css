@@ -3,11 +3,11 @@
     width: 2%;
     height: 2%;
     background-color: #2F4858;
-    border-radius: 4px;
+    /* border-radius: 4px; */
     border: solid 0.5px rgb(173, 176, 173);
     animation: fadeOut 2s infinite;
-    --border-snake-50: solid 1.5px #296071;
-    --border-snake-100: solid 0.5px #1B7884;
+    --border-snake-50: solid 1px #296071;
+    --border-snake-100: solid 1px #1B7884;
     /* box-shadow: 0 0 20px rgb(123, 0, 255); */
     z-index: 10;
 
@@ -32,7 +32,7 @@
   background-color: transparent;
   border: none;
   animation: none; 
-  box-shadow: 0 30px 50px #e9ece8
+  box-shadow: 0px 0px 60px #ffffff
 }
 
 .blinking {
@@ -49,23 +49,25 @@
   }
   50% {
     opacity: 0;
+    background-color: rgb(178, 127, 226);
    }
   100% { 
     opacity: 1;
-    background-color: rgb(178, 127, 226);
+    /* background-color: rgb(178, 127, 226); */
+    background-color: transparent;
   }
 }
 
 .freez {
   background-color: rgb(45, 208, 245);
   box-shadow: 0 0 40px rgb(236, 239, 239);
-  --border-snake-50: solid 1.2px rgb(29, 146, 219);
-  --border-snake-100: solid 0.7px rgb(255, 255, 255);
+  --border-snake-50: solid 1px rgb(29, 146, 219);
+  --border-snake-100: solid 1px rgb(255, 255, 255);
 } 
 
 .hot {
   background-color: rgb(246, 61, 61);
   box-shadow: 0 20px 60px rgb(226, 120, 14);
-  --border-snake-50: solid 1.2px rgb(255, 187, 0);
-  --border-snake-100: solid 0.7px rgb(253, 0, 0);
+  --border-snake-50: solid 1px rgb(255, 187, 0);
+  --border-snake-100: solid 1px rgb(253, 0, 0);
 } 

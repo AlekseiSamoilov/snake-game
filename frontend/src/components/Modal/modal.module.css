@@ -12,9 +12,9 @@
   }
   
   .modal {
-    background: rgb(117, 176, 45);
+    position: relative;
+    background: #C0DC80;
     padding: 20px;
-    border-radius: 8px;
     width: 250px;
     height: 250px;
     display: flex;
@@ -28,16 +28,78 @@
     padding: 10px 20px;
     font-size: 16px;
     margin-top: 20px;
-    width: 120px;
-    background-color: rgba(244, 40, 40, 0.5);
+    width: 150px;
+    background-color: #1B7884;
     border: none;
-    border-radius: 5px;
+    font-size: 15px;
+    font-family: 'Undertale_Battle_Font';
+    font-weight: 800;
+    color: #C0DC80;
   }
   .button:hover {
-    background-color: rgb(235, 18, 18);
+    /* animation: btn_focus 4s ease; */
+    transform: scale(1.1);
+    text-transform: uppercase;
   }
 
   .title {
     text-transform: capitalize;
-    color: green
+    color: #296071;
+    font-size: 22px;
   }
+
+  .input {
+    width: 150px;
+    height: 30px;
+    font-family: inherit;
+    font-size: 20px;
+    border: none;
+    color: #296071;
+    
+  }
+
+  .input:focus {
+    border: none;
+    outline: none;
+    width: 200px;
+  }
+
+  .result_row {
+    display: flex;
+    justify-content: space-between;
+    gap: 30px;
+    font-size: 18px;
+    width: 100%;
+  }
+
+  .close_btn {
+    font-size: 20px;
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    border: none;
+    background-color: transparent;
+  }
+
+  .close_btn:hover {
+    /* scale: 1.5; */
+    /* font-weight: 900; */
+    transform: rotate(90);
+    background-color: red;
+  }
+
+  /* @keyframes btn_focus {
+    25% {
+      scale: 1.05;
+    }
+    50% {
+      scale: 1.1;
+    }
+    75% {
+      scale: 1.05;
+    }
+    100% {
+      scale: 1;
+
+    }
+  } */
