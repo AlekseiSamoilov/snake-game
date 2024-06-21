@@ -73,3 +73,35 @@
     font-size: 14px;
     color:  #2F4858;
   }
+
+  .info_res {
+    text-transform: uppercase;
+    font-size: 14px;
+    border-bottom: 2px solid red;
+  }
+
+  .pause {
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
+    align-items: center;
+    font-size: 40px;
+    color: red;
+    animation: pausedAnimation 2s infinite;
+    z-index: 4;
+  }
+
+  .pause_tip {
+    font-size: 20px;
+  }
+
+  @keyframes pausedAnimation {
+    20% {
+      opacity: 1;
+    }
+    80% {
+      opacity: 0;
+    }
+  }
+
+  

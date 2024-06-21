@@ -294,13 +294,11 @@ const App: React.FC = () => {
   const handleClose = () => {
     setIsResult(false);
     setIsPaused(prev => !prev)
-    console.log(isPaused)
   }
 
   const handleResultOpen = () => {
     setIsResult(true);
     setIsPaused(true)
-    console.log(isPaused)
   }
 
   return(
@@ -347,9 +345,17 @@ const App: React.FC = () => {
         </>
       )}
       <div className={style.speed_window}>{speed}</div>
+      {!isPaused && (
+        <div className={style.pause}>
+          <span>PAUSE</span>
+          <span className={style.pause_tip}>press spacebar for continue</span>
+          </div>
+
+      )}
+      
       </div>
       <div className={style.inform_box}>
-        <h4 className={style.info_text}>current result: {userName}:{snakeDots.length - 2}</h4>
+        <h4 className={style.info_text}>current result: <span className={style.info_res}>{userName}:{snakeDots.length - 2}</span></h4>
         <h4 className={style.info_text}>best result:</h4>
         <h4 className={style.info_text}>game time: </h4>
         <button className={style.table_button} onClick={handleResultOpen}>results</button>

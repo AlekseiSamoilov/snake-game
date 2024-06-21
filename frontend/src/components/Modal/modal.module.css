@@ -21,7 +21,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    z-index: 3;
+    z-index: 100;
   }
   
   .button {
@@ -79,6 +79,7 @@
     right: 15px;
     border: none;
     background-color: transparent;
+    box-shadow: 0 0 5px rgba(8, 8, 7, 0.3);
   }
 
   .close_btn:hover {

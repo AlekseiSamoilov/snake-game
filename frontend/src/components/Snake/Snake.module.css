@@ -9,7 +9,7 @@
     --border-snake-50: solid 1px #296071;
     --border-snake-100: solid 1px #1B7884;
     /* box-shadow: 0 0 20px rgb(123, 0, 255); */
-    z-index: 10;
+    z-index: 4;
 
   }
 
