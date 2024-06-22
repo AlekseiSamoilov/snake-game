@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Snake from "./components/Snake/Snake";
 import Food from "./components/Food/Food";
 import style from './app.module.css';
@@ -6,20 +6,11 @@ import React from "react";
 import StartModal from "./components/Modal/StartModal";
 import EndModal from "./components/Modal/EndModal";
 import ResultModal from "./components/Modal/ResultModal";
-
-const getRandomCoordinates = () => {
-  const min = 1;
-  const max = 98;
-  const x = Math.floor((Math.random() * (max - min + 1) + min) / 2) * 2;
-  const y = Math.floor((Math.random() * (max - min + 1) + min) / 2) * 2;
-  return [x, y];
-}
-
-const getRandomFoodType = () => {
-  const foodTypes = ["blue", "red", "green", "yellow", "purple"];
-  const randomType = Math.floor(Math.random() * foodTypes.length);
-  return foodTypes[randomType];
-}
+import { getRandomCoordinates } from "./constants/constants";
+import { getRandomFoodType } from "./constants/constants";
+import { effectDuration } from "./constants/constants";
+import { useEffectQueue } from "./hooks/useEffectQueue";
+import { IFoodEffect } from "./hooks/useEffectQueue";
 
 const App: React.FC = () => {
   const [snakeDots, setSnakeDots] = useState<number[][]>([
@@ -43,6 +34,7 @@ const App: React.FC = () => {
   const [userName, setUserName] = useState<string>('');
   const [isResult, setIsResult] = useState<boolean>(false);
 
+    const addEffectToQueue = useEffectQueue(setActiveEffects);
 
   useEffect(() => { 
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -72,8 +64,8 @@ const App: React.FC = () => {
           setIsResult(true);
           break;
       }
-
     };
+
     document.addEventListener('keydown', handleKeyDown);
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
@@ -104,7 +96,6 @@ const App: React.FC = () => {
       if (head[1] >= 100) head[1] = 0;
       if (head[1] < 0) head[1] = 98;
 
-
       dots.push(head);
       dots.shift();
       setSnakeDots(dots);
@@ -115,8 +106,34 @@ const App: React.FC = () => {
     }
   }, [snakeDots, direction, isGameOver, speed, showStartModal, isPaused]);
 
+  const applyGrowEffect = () => {
+    setSnakeDots(prevSnakeDots => {
+      let newSnake = [...prevSnakeDots];
+      for (let i = 0; i < 5; i++) {
+        newSnake.unshift([]);
+      }
+      return newSnake;
+    });
+  };
+  
+  const applyFoodEffect = (type: string): IFoodEffect | null => {
+    switch (type) {
+      case "blue":
+        return { effect: 'speedDown', action: setIsFreez, duration: effectDuration.freeze };
+      case "red":
+        return { effect: 'speedUp', action: setIsHot, duration: effectDuration.speedUp };
+      case "green":
+        return { effect: 'blink', action: setIsBlinking, duration: effectDuration.blink };
+      case "yellow":
+        return { effect: 'grow', action: applyGrowEffect, duration: 0 };
+      case "purple":
+        return { effect: 'invisible', action: setIsInvisible, duration: effectDuration.invisible };
+      default:
+        return null;
+    }
+  }
+  
   useEffect(() => {
-
     const checkIfCollapsed = () => {
       let snake = [...snakeDots];
       let head = snake[snake.length - 1];
@@ -156,46 +173,12 @@ const App: React.FC = () => {
       setSpeed(newSpeed); 
     };
 
-    const applyFoodEffect = (type: string) => {
-      switch (type) {
-        case "blue":
-          setActiveEffects((prevState) => [...prevState, 'speedDown']);
-          setIsFreez(true)
-          setTimeout(() => {
-            setActiveEffects((prevState) => prevState.filter(effect => effect !== 'speedDown'));
-            setIsFreez(false);
-          }, 5000);
-          break;
-        case "red":
-          setActiveEffects((prevState) => [...prevState, 'speedUp']);
-          setIsHot(true);
-          setTimeout(() => {
-            setActiveEffects((prevState) => prevState.filter(effect => effect !== 'speedUp'));
-            setIsHot(false); 
-          }, 5000);
-          break;
-        case "green":
-          setIsBlinking(true); 
-          setTimeout(() => setIsBlinking(false), 7000); 
-          break;
-        case "yellow":
-          let newSnake = [...snakeDots];
-          newSnake.unshift([]);
-          newSnake.unshift([]);
-          newSnake.unshift([]);
-          newSnake.unshift([]);
-          newSnake.unshift([]);
-          setSnakeDots(newSnake);
-          break; 
-        case "purple":
-          setIsInvisible(true);  
-          setTimeout(() => setIsInvisible(false), 5000); 
-          break;
-        default:
-          break;
+    const handleFoodConsumption = (type) => {
+      const effect = applyFoodEffect(type);
+      if (effect) {
+        addEffectToQueue(effect);
       }
-    }
-
+    };
 
     const checkIfEat = () => {
       let head = snakeDots[snakeDots.length - 1];
@@ -203,7 +186,8 @@ const App: React.FC = () => {
         setFood(getRandomCoordinates());
         enlargeSnake();
         setFoodType(getRandomFoodType());
-        applyFoodEffect(foodType);
+        // applyFoodEffect(foodType);
+        handleFoodConsumption(foodType);
         increaseBaseSpeed();
       }  
 
@@ -213,7 +197,6 @@ const App: React.FC = () => {
     checkIfEat();
     adjustSpeed();
   }, [snakeDots, food, speed, foodType, activeEffects]);
-
 
   useEffect(() => {
     const findPath = () => {

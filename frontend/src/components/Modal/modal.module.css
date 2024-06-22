@@ -55,7 +55,10 @@
     font-size: 20px;
     border: none;
     color: #296071;
-    
+  }
+
+  .input::placeholder {
+    opacity: 0.3;
   }
 
   .input:focus {
@@ -83,8 +86,6 @@
   }
 
   .close_btn:hover {
-    /* scale: 1.5; */
-    /* font-weight: 900; */
     transform: rotate(90);
     background-color: red;
   }
