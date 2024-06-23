@@ -186,7 +186,7 @@ const App: React.FC = () => {
         setFood(getRandomCoordinates());
         enlargeSnake();
         setFoodType(getRandomFoodType());
-        // applyFoodEffect(foodType);
+        applyFoodEffect(foodType);
         handleFoodConsumption(foodType);
         increaseBaseSpeed();
       }  
@@ -198,49 +198,49 @@ const App: React.FC = () => {
     adjustSpeed();
   }, [snakeDots, food, speed, foodType, activeEffects]);
 
-  useEffect(() => {
-    const findPath = () => {
-      const start = snakeDots[snakeDots.length - 1];
-      const goal = food;
-      const queue: number[][][] = [[start]];
-      const visited: Set<string> = new Set();
-      visited.add(start.toString());
+  // useEffect(() => {
+  //   const findPath = () => {
+  //     const start = snakeDots[snakeDots.length - 1];
+  //     const goal = food;
+  //     const queue: number[][][] = [[start]];
+  //     const visited: Set<string> = new Set();
+  //     visited.add(start.toString());
 
-      while (queue.length > 0) {
-        const path = queue.shift();
-        if (path) {
-          const node = path[path.length - 1];
+  //     while (queue.length > 0) {
+  //       const path = queue.shift();
+  //       if (path) {
+  //         const node = path[path.length - 1];
 
-          if (node[0] === goal[0] && node[1] === goal[1]) {
-            setPath(path);
-            return;
-          }
+  //         if (node[0] === goal[0] && node[1] === goal[1]) {
+  //           setPath(path);
+  //           return;
+  //         }
 
-          const neighbors = [
-            [node[0] + 2, node[1]],
-            [node[0] - 2, node[1]],
-            [node[0], node[1] + 2],
-            [node[0], node[1] - 2]
-          ];
+  //         const neighbors = [
+  //           [node[0] + 2, node[1]],
+  //           [node[0] - 2, node[1]],
+  //           [node[0], node[1] + 2],
+  //           [node[0], node[1] - 2]
+  //         ];
 
-          for (const neighbor of neighbors) {
-            if (
-              neighbor[0] >= 0 && neighbor[0] < 100 &&
-              neighbor[1] >= 0 && neighbor[1] < 100 &&
-              !visited.has(neighbor.toString())
-            ) {
-              visited.add(neighbor.toString());
-              queue.push([...path, neighbor]);
-            }
-          }
-        }
-      }
-    };
+  //         for (const neighbor of neighbors) {
+  //           if (
+  //             neighbor[0] >= 0 && neighbor[0] < 100 &&
+  //             neighbor[1] >= 0 && neighbor[1] < 100 &&
+  //             !visited.has(neighbor.toString())
+  //           ) {
+  //             visited.add(neighbor.toString());
+  //             queue.push([...path, neighbor]);
+  //           }
+  //         }
+  //       }
+  //     }
+  //   };
 
-    if (!isGameOver && !showStartModal) {
-      findPath();
-    }
-  }, [snakeDots, food, isGameOver, showStartModal]);
+  //   if (!isGameOver && !showStartModal) {
+  //     findPath();
+  //   }
+  // }, [snakeDots, food, isGameOver, showStartModal]);
 
   
   const startGame = (name: string) => {

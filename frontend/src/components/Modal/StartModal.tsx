@@ -24,6 +24,7 @@ const StartModal: React.FC<IStartModalProps> = ({ show, onStart }) => {
           onChange={(e) => setName(e.target.value)} 
           placeholder="Name"
         />
+        <input type='checkbox' />
         <button className={styles.button} onClick={handleSubmit}>start game</button>
       </div>
     </div>
