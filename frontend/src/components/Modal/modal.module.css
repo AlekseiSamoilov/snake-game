@@ -55,6 +55,7 @@
     font-size: 20px;
     border: none;
     color: #296071;
+    margin-bottom: 10px;
   }
 
   .input::placeholder {
@@ -90,18 +91,60 @@
     background-color: red;
   }
 
-  /* @keyframes btn_focus {
-    25% {
-      scale: 1.05;
-    }
-    50% {
-      scale: 1.1;
-    }
-    75% {
-      scale: 1.05;
-    }
-    100% {
-      scale: 1;
+  .input_label {
+    font-size: 15px;
+    color: #296071;
+  }
 
-    }
-  } */
+  .custom_checkbox {
+    display: inline-block;
+    position: relative;
+    cursor: pointer;
+    font-size: 18px;
+    user-select: none;
+  }
+  
+  .custom_checkbox input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+  }
+  
+  .custom_checkbox .checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 25px;
+    width: 25px;
+    background-color: #eee;
+    border: 2px solid #ccc;
+    border-radius: 0; /* Углы не скруглены */
+  }
+  
+  .custom_checkbox input:checked + .checkmark {
+    background-color: #2196F3;
+    border: 2px solid #2196F3;
+  }
+  
+  .custom_checkbox .checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+  }
+  
+  .custom_checkbox input:checked + .checkmark:after {
+    display: block;
+  }
+  
+  .custom_checkbox .checkmark:after {
+    left: 9px;
+    top: 5px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    transform: rotate(45deg);
+  }
+  

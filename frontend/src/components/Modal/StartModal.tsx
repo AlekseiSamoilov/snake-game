@@ -3,16 +3,17 @@ import styles from './modal.module.css'
 
 interface IStartModalProps {
     show: boolean
-    onStart: (name: string) => void;
+    onStart: (name: string, enablePathFinding: boolean) => void;
 }
 
 const StartModal: React.FC<IStartModalProps> = ({ show, onStart }) => {
     const [name, setName] = useState<string>('')
+    const [enablePathFinding, setEnablePathFinding] = useState<boolean>(false);
 
     if (!show) return null;
 
     const handleSubmit = () => {
-        onStart(name);
+        onStart(name, enablePathFinding);
     }
   return (
 <div className={styles.overlay}>
@@ -24,7 +25,12 @@ const StartModal: React.FC<IStartModalProps> = ({ show, onStart }) => {
           onChange={(e) => setName(e.target.value)} 
           placeholder="Name"
         />
-        <input type='checkbox' />
+        <label className={styles.input_label}>
+        <input 
+        type='checkbox'
+        checked={enablePathFinding}
+        onChange={(e) => setEnablePathFinding(e.target.checked)} />
+       Enable pathfinding option </label>
         <button className={styles.button} onClick={handleSubmit}>start game</button>
       </div>
     </div>
