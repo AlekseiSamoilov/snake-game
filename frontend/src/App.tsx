@@ -68,7 +68,7 @@ const App: React.FC = () => {
         case " ":
           setIsPaused(!isPaused);
           break;
-        case "Enter":
+        case "Shift":
           setIsPaused(!isPaused)
           setIsResult(prev => !prev);
           break;
