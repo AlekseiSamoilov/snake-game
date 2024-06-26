@@ -17,21 +17,26 @@ const StartModal: React.FC<IStartModalProps> = ({ show, onStart }) => {
     }
   return (
 <div className={styles.overlay}>
-      <div className={styles.modal}>
+      <div data-testid="start-modal" className={styles.modal}>
         <h2 className={styles.title}>Enter Your Name</h2>
         <input 
+          data-testid='name-input'
           className={styles.input} 
           value={name} 
           onChange={(e) => setName(e.target.value)} 
           placeholder="Name"
         />
         <label className={styles.input_label}>
-        <input 
+        <input
+        data-testid='path-find-checkbox'
         type='checkbox'
         checked={enablePathFinding}
         onChange={(e) => setEnablePathFinding(e.target.checked)} />
        Enable pathfinding option </label>
-        <button className={styles.button} onClick={handleSubmit}>start game</button>
+        <button 
+        data-testid='start-button'
+        className={styles.button} 
+        onClick={handleSubmit}>start game</button>
       </div>
     </div>
   )

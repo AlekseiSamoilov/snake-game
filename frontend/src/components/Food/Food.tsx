@@ -9,6 +9,7 @@ interface IFoodProps {
 const Food: React.FC<IFoodProps> = ({ dot, type }) => {
     return (
         <div 
+        data-testid='food'
         className={`${style.food} ${style[type]}`}
         style={{ top: `${dot[1]}%`, left: `${dot[0]}%` }}>
         </div>
