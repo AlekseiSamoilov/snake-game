@@ -1,23 +1,24 @@
 .main_window {
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex-direction: column;
-  gap: 10px;
+  /* gap: 10px; */
 }
 
 .game_area {
+  
   padding: 0;
   margin: 0 auto;
   position: relative;
   width: 650px;
   height: 650px;
-  border: 1px solid #296071;
   margin-top: 20px;
-  background: #5EC28F;
   display: flex;
   align-items: center;
   justify-content: center;
+  box-shadow: 0 0 20px #01fe01;
 }
 
 .speed_window {

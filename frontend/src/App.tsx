@@ -6,7 +6,6 @@ import React from "react";
 import StartModal from "./components/Modal/StartModal";
 import EndModal from "./components/Modal/EndModal";
 import ResultModal from "./components/Modal/ResultModal";
-import { getRandomCoordinates } from "./constants/constants";
 import { getRandomFoodType } from "./constants/constants";
 import { effectDuration } from "./constants/constants";
 import { useEffectQueue } from "./hooks/useEffectQueue";
@@ -18,7 +17,6 @@ const App: React.FC = () => {
     [0, 2],
     [2, 0] 
   ]);
-  const [food, setFood] = useState<number[]>(getRandomCoordinates());
   const [direction, setDirection] = useState<string>('RIGHT');
   const [speed, setSpeed] = useState<number>(500);
   const [baseSpeed, setBaseSpeed] = useState<number>(500);
@@ -37,6 +35,32 @@ const App: React.FC = () => {
   const addEffectToQueue = useEffectQueue(setActiveEffects);
   const [isPathFindingEnabled, setIsPathFindingEnabled] = useState<boolean>(false);
   const [gameTime, setGameTime] = useState<number>(0); 
+  const [cutTails, setCutTails] = useState<number[][][]>([]);
+  const [isInvulnerable, setIsInvulnerable] = useState<boolean>(false);
+  const [result, setResult] = useState<number>(0)
+
+  const isCoordinateOccupied = (x: number, y: number): boolean => {
+    if (snakeDots.some(dot => dot[0] === x && dot[1] === y)) {
+      return true;
+    }
+    return cutTails.some(tail => 
+      tail.some(dot => dot[0] === x && dot[1] === y)
+    );
+  };
+
+  const getRandomCoordinates = (): number[] => {
+    let newCoord: number[];
+    do {
+      newCoord = [
+        Math.floor((Math.random() * 49)) * 2,
+        Math.floor((Math.random() * 49)) * 2
+      ];
+    } while (isCoordinateOccupied(newCoord[0], newCoord[1]));
+    
+    return newCoord;
+  };
+
+  const [food, setFood] = useState<number[]>(getRandomCoordinates());
 
   useEffect(() => { 
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -109,6 +133,7 @@ const App: React.FC = () => {
       dots.push(head);
       dots.shift();
       setSnakeDots(dots);
+
     };
     if (!isGameOver && !showStartModal && !isPaused) {
       const interval = setInterval(snakeMove, speed);
@@ -148,16 +173,16 @@ const App: React.FC = () => {
   }
   
   useEffect(() => {
-    const checkIfCollapsed = () => {
-      let snake = [...snakeDots];
-      let head = snake[snake.length - 1];
-      snake.pop();
-      snake.forEach(dot => {
-        if(head[0] === dot[0] && head[1] === dot[1]) {
-          setIsGameOver(true);
-        }
-      });
-    };
+    // const checkIfCollapsed = () => {
+    //   let snake = [...snakeDots];
+    //   let head = snake[snake.length - 1];
+    //   snake.pop();
+    //   snake.forEach(dot => {
+    //     if(head[0] === dot[0] && head[1] === dot[1]) {
+    //       setIsGameOver(true);
+    //     }
+    //   });
+    // };
 
     const enlargeSnake = () => {
       let newSnake = [...snakeDots]; 
@@ -203,8 +228,34 @@ const App: React.FC = () => {
         applyFoodEffect(foodType);
         handleFoodConsumption(foodType);
         increaseBaseSpeed();
+        setResult(result + 1)
       }  
+    };
 
+    const checkIfCollapsed = () => {
+      let snake = [...snakeDots];
+      let head = snake[snake.length - 1];
+      if (!isInvulnerable) {
+        for (let tail of cutTails) {
+          for (let segment of tail) {
+            if (head[0] === segment[0] && head[1] === segment[1]) {
+              setIsGameOver(true);
+              return true;
+            }
+          }
+        }
+      }
+      for (let i = 0; i < snake.length - 1; i++) {
+        if (head[0] === snake[i][0] && head[1] === snake[i][1]) {
+          const newTail = snake.slice(0, i + 1);
+          setCutTails(prevTails => [...prevTails, newTail]);
+          setSnakeDots(prevDots => prevDots.slice(i + 1));
+          setIsInvulnerable(true);
+          setTimeout(() => setIsInvulnerable(false), 1000); 
+          return true;
+        }
+      }
+      return false;
     };
 
     checkIfCollapsed();
@@ -222,7 +273,7 @@ const App: React.FC = () => {
       clearInterval(timer);
     }
     return () => clearInterval(timer);
-  }, [isPaused, isGameOver, showStartModal, isResult]);
+  }, [isPaused, isGameOver, showStartModal, isResult, cutTails]);
   
   
 
@@ -270,6 +321,11 @@ const App: React.FC = () => {
     }
   }, [snakeDots, food, isGameOver, showStartModal, isPathFindingEnabled]);
 
+  useEffect(() => {
+    if (isCoordinateOccupied(food[0], food[1])) {
+      setFood(getRandomCoordinates());
+    }
+  }, [snakeDots, cutTails]);
   
   const startGame = (name: string, enablePathFinding: boolean) => {
     setUserName(name)
@@ -278,6 +334,7 @@ const App: React.FC = () => {
     setFoodType(getRandomFoodType());
     setIsPathFindingEnabled(enablePathFinding);
     setGameTime(0);
+    setResult(0)
   };
 
   const resetGame = () => {
@@ -297,6 +354,9 @@ const App: React.FC = () => {
     setPath([]);
     setBaseSpeed(500);
     setGameTime(0);
+    setCutTails([]);
+    setIsInvulnerable(false);
+    setResult(0)
   };
 
   const handleNewUser = () => {
@@ -330,12 +390,12 @@ const App: React.FC = () => {
       />
       <ResultModal 
         show={isResult}
-        score={snakeDots.length - 2}
+        score={result}
         name={userName}
         onClose={handleClose} />
       {!isGameOver && !showStartModal && (
         <>
-         <Snake snakeDots={snakeDots} isInvisible={isInvisible} isBlinking={isBlinking} isFreez={isFreez} isHot={isHot} />
+         <Snake snakeDots={snakeDots} isInvisible={isInvisible} isBlinking={isBlinking} isFreez={isFreez} isHot={isHot} cutTails={cutTails} isInvulnerable={isInvulnerable} />
          <Food dot={food} type={foodType} />
           <svg className={style.path_svg}>
             {path.map((step, index) => {
@@ -349,7 +409,7 @@ const App: React.FC = () => {
                   y1={`${prevStep[1] + offset}%`}
                   x2={`${step[0] + offset}%`}
                   y2={`${step[1] + offset}%`}
-                  stroke="rgba(10, 58, 10, 0.1)"
+                  stroke="yellow"
                   strokeWidth="3"
                   strokeDasharray="5, 5"
                 />
@@ -370,7 +430,7 @@ const App: React.FC = () => {
       </div>
       <InfoBox
           userName={userName}
-          score={snakeDots.length - 2}
+          score={result}
           gameTime={gameTime}
           onResultOpne={handleResultOpen}
         />

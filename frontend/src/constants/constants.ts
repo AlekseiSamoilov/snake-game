@@ -1,11 +1,4 @@
 
-export const getRandomCoordinates = () => {
-    const min = 1;
-    const max = 98;
-    const x = Math.floor((Math.random() * (max - min + 1) + min) / 2) * 2;
-    const y = Math.floor((Math.random() * (max - min + 1) + min) / 2) * 2;
-    return [x, y];
-}
 
 export const getRandomFoodType = () => {
     const foodTypes = ["blue", "red", "green", "yellow", "purple"];
@@ -14,11 +7,11 @@ export const getRandomFoodType = () => {
 }
 
 export const effectDuration = {
-    speedDown: 5000,
+    // speedDown: 5000,
     speedUp: 5000,
-    freeze: 5000,
-    blink: 7000,
-    invisible: 6000
+    freeze: 3000,
+    blink: 10000,
+    invisible: 10000
 };
 
 export const formatTime = (time: number) => {
@@ -26,3 +19,4 @@ export const formatTime = (time: number) => {
     const seconds = time % 60;
     return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
 };
+

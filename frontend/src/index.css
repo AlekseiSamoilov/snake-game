@@ -5,9 +5,11 @@
   font-style: normal;
 }
 
-
 body {
-  background-color: #17918F;
+  /* background-color: #17918F; */
+  background-image: url(./assests/img/image4.webp);
+  background-size: cover;
+  background-position: 50% 50%;
   margin: 0 auto;
   font-family: 'Undertale_Battle_Font', BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',

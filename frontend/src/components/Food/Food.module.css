@@ -3,47 +3,59 @@
     width: 2%;
     height: 2%;
     background-color: var(--food-color);
-    animation: glow 1s infinite;
+    animation: glow 2s infinite;
+    border: 1px solid white;
   }
 
   @keyframes glow {
     0% {
-      box-shadow: 0 0 5px var(--glow-color)
+      box-shadow: 0 0 10px var(--glow-color);
+      border-bottom: 2.5px solid rgb(255, 255, 255);
+    }
+    25% {
+      box-shadow: 0 0 10px var(--glow-color-bright);
+      /* opacity: 0; */
+      border-left: 2.5px solid rgb(255, 255, 255);
     }
     50% {
-      box-shadow: 0 0 5px var(--glow-color-bright)
+      border-top: 2.5px solid rgb(253, 253, 253);
+      box-shadow: 0 0 10px var(--glow-color);
     }
+    75% {
+      border-right: 2.5px solid rgb(253, 253, 253);
+      box-shadow: 0 0 10px var(--glow-color-bright);
+    } 
     100% {
-      box-shadow: 0 0 5px var(--glow-color)
+      box-shadow: 0 0 10px var(--glow-color);
     }
   }
 
   .food.blue {
-    --food-color: rgb(102, 202, 222);
+    --food-color: rgb(0, 213, 255);
     --glow-color: rgb(240, 240, 240);
     --glow-color-bright: rgb(0, 225, 255);
   }
   
   .food.red {
-    --food-color: rgb(168, 43, 43);
+    --food-color: rgb(250, 0, 0);
     --glow-color: rgb(255, 0, 0);
     --glow-color-bright: rgb(255, 255, 255);
   }
    
   .food.green {
-    --food-color: green;
+    --food-color: rgb(0, 255, 0);
     --glow-color: rgb(13, 255, 0);
     --glow-color-bright: rgb(255, 255, 255);
   } 
   
   .food.yellow {
-    --food-color: rgb(197, 197, 14);
+    --food-color: rgb(255, 255, 0);
     --glow-color: rgb(247, 232, 33);
     --glow-color-bright: rgb(255, 255, 255);
   }
   
   .food.purple {
-    --food-color: purple;
+    --food-color: rgb(255, 0, 255);
     --glow-color: rgb(230, 0, 255);
     --glow-color-bright: rgb(255, 255, 255);
   }

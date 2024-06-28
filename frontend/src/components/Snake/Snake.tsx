@@ -7,9 +7,11 @@ interface ISnakeProps {
     isBlinking: boolean;
     isFreez: boolean;
     isHot: boolean;
+    cutTails: number[][][];
+    isInvulnerable: boolean;
 }
 
-const Snake: React.FC<ISnakeProps> = ({ snakeDots, isInvisible, isBlinking, isFreez, isHot }) => {
+const Snake: React.FC<ISnakeProps> = ({ snakeDots, isInvisible, isBlinking, isFreez, isHot, cutTails, isInvulnerable }) => {
     return (
     <div>
         {snakeDots.map((dot, i) => (
@@ -19,10 +21,24 @@ const Snake: React.FC<ISnakeProps> = ({ snakeDots, isInvisible, isBlinking, isFr
             ${isInvisible ? style.invisible : ''} 
             ${isBlinking ? style.blinking : ''} 
             ${isFreez ? style.freez : ''} 
-            ${isHot ? style.hot : ''}`}
+            ${isHot ? style.hot : ''}
+            ${isInvulnerable ? style.invulnerable : ''}
+            `}
             key={i} 
             style={{ top: `${dot[1]}%`, left: `${dot[0]}%`, animationDelay: `${i * 50}ms`}} />
         ))}
+        {cutTails.map((tail, tailIndex) => 
+                tail.map((dot, dotIndex) => (
+                    <div 
+                        className={`${style.snake_dot} ${style.cut_tail}`}
+                        key={`cut-${tailIndex}-${dotIndex}`} 
+                        style={{ 
+                            top: `${dot[1]}%`, 
+                            left: `${dot[0]}%`
+                        }} 
+                    />
+                ))
+            )}
     </div>
     )
 };

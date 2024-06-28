@@ -2,64 +2,71 @@
     position: absolute;
     width: 2%;
     height: 2%;
-    background-color: #2F4858;
-    /* border-radius: 4px; */
+    /* background-color: #2F4858; */
+    background-color: #eeff00;
     border: solid 0.5px rgb(173, 176, 173);
-    animation: fadeOut 2s infinite;
-    --border-snake-50: solid 1px #296071;
-    --border-snake-100: solid 1px #1B7884;
-    /* box-shadow: 0 0 20px rgb(123, 0, 255); */
+    animation: fadeOut 3s infinite;
+    --border-snake-50: solid 1px #22d63a;
+    --border-snake-100: solid 1px #ff4d07;
+    box-shadow: 0 0 3px rgb(0, 0, 0); 
     z-index: 4;
 
   }
-
+ 
 @keyframes fadeOut {
   0% {
-    opacity: 1;
-  }
+
+    border: var(--border-snake-100);
+    /* opacity: 1; */
+  } 
   50% {
-    opacity: 0.7;
+    /* opacity: 0.95; */
     border: var(--border-snake-50);
   }
   100% {
-    opacity: 0.5;
+    /* opacity: 0.9; */
     border: var(--border-snake-100);
   }
 }
+ 
 
-
-.invisible { 
-  background-color: transparent;
-  border: none;
-  animation: none; 
-  box-shadow: 0px 0px 60px #ffffff
+.invisible {  
+  animation: none;
+  transform: scale(0.3);
+  border: 3px solid black ;
 }
 
-.blinking {
+
+.blinking { 
   animation: blinking 0.4s infinite;
-}
+} 
 
 @keyframes blinking {
   0% { 
-    opacity: 1;
-    background-color: rgb(182, 246, 157);
+    background-color: rgb(76, 255, 5);
+  }
+  10% {
+    background: transparent;
   }
   20% { 
-    background-color: transparent;
+    background-color: rgb(100, 96, 96);
+  } 
+  40% {
+    background: transparent;
   }
   50% {
-    opacity: 0;
-    background-color: rgb(178, 127, 226);
+    background-color: rgb(51, 183, 39);
    }
+   70% {
+    background: transparent;
+  }
   100% { 
-    opacity: 1;
-    /* background-color: rgb(178, 127, 226); */
-    background-color: transparent;
+    background-color: rgb(212, 212, 211);
   }
 }
-
+ 
 .freez {
-  background-color: rgb(45, 208, 245);
+  background-color: rgb(0, 255, 238);
   box-shadow: 0 0 40px rgb(236, 239, 239);
   --border-snake-50: solid 1px rgb(29, 146, 219);
   --border-snake-100: solid 1px rgb(255, 255, 255);
@@ -71,3 +78,27 @@
   --border-snake-50: solid 1px rgb(255, 187, 0);
   --border-snake-100: solid 1px rgb(253, 0, 0);
 } 
+
+.cut_tail {
+  opacity: 1;
+  animation: none;
+  background-color: #777;
+  border: none; 
+  border: 1px solid rgb(18, 17, 17);
+  animation: wall 4s infinite;
+}
+
+.invulnerable {
+  opacity: 0.5;
+  animation: pulse 0.5s infinite alternate;
+}
+@keyframes pulse {
+  from { opacity: 0.5; }
+  to { opacity: 1; }
+}
+
+@keyframes wall {
+  from { border: 1px solid rgb(255, 254, 254); }
+  to { border: 1px solid rgb(131, 128, 128); }
+}
+
