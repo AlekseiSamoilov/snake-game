@@ -23,9 +23,8 @@
 
 .speed_window {
   position: absolute;
-  font-size: 20px;
-  opacity: 0.3;
-  color: rgb(57, 125, 11);
+  font-size: 25px;
+  color: rgb(255, 255, 255);
   top: 450px;
 }
 

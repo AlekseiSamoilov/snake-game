@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import Snake from "./components/Snake/Snake";
 import Food from "./components/Food/Food";
 import style from './app.module.css';
@@ -13,13 +13,15 @@ import { IFoodEffect } from "./hooks/useEffectQueue";
 import InfoBox from "./components/InfoBox/InfoBox";
 
 const App: React.FC = () => {
+    const FOOD_INTERVAL = 15;
+
   const [snakeDots, setSnakeDots] = useState<number[][]>([
     [0, 2],
     [2, 0] 
   ]);
   const [direction, setDirection] = useState<string>('RIGHT');
-  const [speed, setSpeed] = useState<number>(500);
-  const [baseSpeed, setBaseSpeed] = useState<number>(500);
+  const [speed, setSpeed] = useState<number>(400);
+  const [baseSpeed, setBaseSpeed] = useState<number>(400);
   const [isGameOver, setIsGameOver] = useState<boolean>(false);
   const [showStartModal, setShowStartModal] = useState<boolean>(true);
   const [isPaused, setIsPaused] = useState<boolean>(false);
@@ -38,6 +40,7 @@ const App: React.FC = () => {
   const [cutTails, setCutTails] = useState<number[][][]>([]);
   const [isInvulnerable, setIsInvulnerable] = useState<boolean>(false);
   const [result, setResult] = useState<number>(0)
+  const [foodTimer, setFoodTimer] = useState(FOOD_INTERVAL);
 
   const isCoordinateOccupied = (x: number, y: number): boolean => {
     if (snakeDots.some(dot => dot[0] === x && dot[1] === y)) {
@@ -171,19 +174,37 @@ const App: React.FC = () => {
         return null;
     }
   }
-  
-  useEffect(() => {
-    // const checkIfCollapsed = () => {
-    //   let snake = [...snakeDots];
-    //   let head = snake[snake.length - 1];
-    //   snake.pop();
-    //   snake.forEach(dot => {
-    //     if(head[0] === dot[0] && head[1] === dot[1]) {
-    //       setIsGameOver(true);
-    //     }
-    //   });
-    // };
 
+  const resetFood = useCallback(() => {
+    setFood(getRandomCoordinates());
+    setFoodType(getRandomFoodType());
+    setFoodTimer(FOOD_INTERVAL);
+  }, []);
+  
+  const startFoodTimer = useCallback(() => {
+    if (!isGameOver && !showStartModal && !isPaused) {
+      const timer = setInterval(() => {
+        setFoodTimer((prevTimer) => {
+          if (prevTimer <= 1) {
+            resetFood();
+            return FOOD_INTERVAL;
+          }
+          return prevTimer - 1;
+        });
+      }, 1000);
+  
+      return timer;
+    }
+  }, [resetFood, isGameOver, showStartModal, isPaused]);
+
+  useEffect(() => {
+    const foodTimer = startFoodTimer();
+    return () => {
+      if (foodTimer) clearInterval(foodTimer);
+    };
+  }, [startFoodTimer]);
+
+  useEffect(() => {
     const enlargeSnake = () => {
       let newSnake = [...snakeDots]; 
       newSnake.unshift([]);
@@ -193,8 +214,8 @@ const App: React.FC = () => {
     const increaseBaseSpeed = () => {
       setBaseSpeed((prevSpeed) => {
         if (prevSpeed > 300) return prevSpeed - 20;
-        if (prevSpeed > 200) return prevSpeed - 10;
-        if (prevSpeed > 120) return prevSpeed - 3;
+        if (prevSpeed > 200) return prevSpeed - 7;
+        if (prevSpeed > 120) return prevSpeed - 2;
         if (prevSpeed > 50) return prevSpeed - 1;
         return 50; 
       });
@@ -222,13 +243,12 @@ const App: React.FC = () => {
     const checkIfEat = () => {
       let head = snakeDots[snakeDots.length - 1];
       if (head[0] === food[0] && head[1] === food[1]) {
-        setFood(getRandomCoordinates());
         enlargeSnake();
-        setFoodType(getRandomFoodType());
         applyFoodEffect(foodType);
         handleFoodConsumption(foodType);
         increaseBaseSpeed();
-        setResult(result + 1)
+        setResult(result + 1);
+        resetFood();
       }  
     };
 
@@ -251,7 +271,7 @@ const App: React.FC = () => {
           setCutTails(prevTails => [...prevTails, newTail]);
           setSnakeDots(prevDots => prevDots.slice(i + 1));
           setIsInvulnerable(true);
-          setTimeout(() => setIsInvulnerable(false), 1000); 
+          setTimeout(() => setIsInvulnerable(false), 1500); 
           return true;
         }
       }
@@ -261,6 +281,7 @@ const App: React.FC = () => {
     checkIfCollapsed();
     checkIfEat();
     adjustSpeed();
+    // foodTimer();
   }, [snakeDots, food, speed, foodType, activeEffects]);
 
   useEffect(() => {
@@ -346,13 +367,13 @@ const App: React.FC = () => {
     setFood(getRandomCoordinates());
     setFoodType(getRandomFoodType());
     setDirection('RIGHT');
-    setSpeed(500);
+    setSpeed(400);
     setIsGameOver(false);
     setIsInvisible(false);
     setIsBlinking(false);
     setActiveEffects([]);
     setPath([]);
-    setBaseSpeed(500);
+    setBaseSpeed(400);
     setGameTime(0);
     setCutTails([]);
     setIsInvulnerable(false);

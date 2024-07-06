@@ -38,7 +38,7 @@
 
 
 .blinking { 
-  animation: blinking 0.4s infinite;
+  animation: blinking 0.5s infinite;
 } 
 
 @keyframes blinking {
@@ -98,7 +98,7 @@
 }
 
 @keyframes wall {
-  from { border: 1px solid rgb(255, 254, 254); }
+  from { border: 1px solid rgb(251, 255, 0); }
   to { border: 1px solid rgb(131, 128, 128); }
 }
 
