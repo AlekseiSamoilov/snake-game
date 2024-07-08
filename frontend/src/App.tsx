@@ -13,7 +13,7 @@ import { IFoodEffect } from "./hooks/useEffectQueue";
 import InfoBox from "./components/InfoBox/InfoBox";
 
 const App: React.FC = () => {
-    const FOOD_INTERVAL = 15;
+    const FOOD_INTERVAL = 12;
 
   const [snakeDots, setSnakeDots] = useState<number[][]>([
     [0, 2],
@@ -405,7 +405,7 @@ const App: React.FC = () => {
       />
       <EndModal
         show={isGameOver}
-        score={snakeDots.length - 2}
+        score={result}
         onPlayAgain={resetGame}
         onNewUser={handleNewUser}
       />
