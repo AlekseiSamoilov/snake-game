@@ -8,5 +8,8 @@
     "scripts": {
         "start:frontend": "yarn workspace frontend start",
         "start:backend": "yarn workspace backend start"
+    },
+    "dependencies": {
+        "@nestjs/config": "^3.2.3"
     }
 }

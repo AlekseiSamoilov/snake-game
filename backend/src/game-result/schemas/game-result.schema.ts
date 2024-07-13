@@ -8,12 +8,12 @@ export class GameResult {
     palyerName: string;
 
     @Prop({ required: true })
-    gameTime: number;
+    gameDuration: number;
 
     @Prop({ required: true })
-    date: Date;
+    gameDate: Date;
 
-    @Prop({ required: true })
+    @Prop({ required: true, default: Date.now })
     score: number;
 }
 

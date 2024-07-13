@@ -30,11 +30,17 @@
 }
  
 .invisible {  
-  animation: none;
-  transform: scale(0.3);
-  border: 3px solid rgb(255, 1, 238) ;
-  background-color: transparent;
-  border-radius: 10px;
+  animation: sizeing 2s infinite;
+  background-color: fuchsia;
+}
+
+@keyframes sizeing {
+  from {
+    transform: scale(0.1);
+  }
+  to {
+    transform: scale(2.5);
+  }
 }
 
 .blinking { 

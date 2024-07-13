@@ -1,5 +1,6 @@
 import React from 'react'
 import styles from './modal.module.css'
+import { saveGameResult } from '../../../api/gameApi';
 
 interface IEndModalProps {
     show: boolean;
@@ -9,7 +10,15 @@ interface IEndModalProps {
 }
 
 const EndModal: React.FC<IEndModalProps> = ({ show, score, onPlayAgain, onNewUser }) => {
-
+   const  handleSaveResult = async () => {
+    try {
+      await saveGameResult({
+        score,
+        playerName: '',
+        gameDuration: 0
+      })
+    }
+    }
     if (!show) return null;
   return (
     <div className={styles.overlay}>
