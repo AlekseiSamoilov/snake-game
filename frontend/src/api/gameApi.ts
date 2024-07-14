@@ -25,7 +25,7 @@ export const saveGameResult = async (result: IGameResult): Promise<void> => {
     }
 };
 
-export const getTopScores = async (limit: number = 10): Promise<void> => {
+export const getTopScores = async (limit: number = 10): Promise<IGameResult[]> => {
     try {
         const response = await fetch(`${API_URL}/game-results/top-scores?limit=${limit}`);
 

@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { GameResultModule } from './game-result/game-result,module';
+import { GameResultModule } from './game-result/game-result.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
