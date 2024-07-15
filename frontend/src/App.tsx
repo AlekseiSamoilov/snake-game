@@ -11,6 +11,7 @@ import { effectDuration } from "./constants/constants";
 import { useEffectQueue } from "./hooks/useEffectQueue";
 import { IFoodEffect } from "./hooks/useEffectQueue";
 import InfoBox from "./components/InfoBox/InfoBox";
+import { saveGameResult } from "./api/gameApi";
 
 const App: React.FC = () => {
     const FOOD_INTERVAL = 12;
@@ -347,6 +348,8 @@ const App: React.FC = () => {
       setFood(getRandomCoordinates());
     }
   }, [snakeDots, cutTails]);
+
+
   
   const startGame = (name: string, enablePathFinding: boolean) => {
     setUserName(name)
@@ -408,6 +411,8 @@ const App: React.FC = () => {
         score={result}
         onPlayAgain={resetGame}
         onNewUser={handleNewUser}
+        playerName={userName}
+        gameDuration={gameTime}
       />
       <ResultModal 
         show={isResult}

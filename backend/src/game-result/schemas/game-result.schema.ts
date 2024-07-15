@@ -5,15 +5,15 @@ export type GameResultDocument = GameResult & Document;
 @Schema()
 export class GameResult {
     @Prop({ required: true })
-    palyerName: string;
+    playerName: string;
 
     @Prop({ required: true })
     gameDuration: number;
 
-    @Prop({ required: true })
+    @Prop({ required: true, default: Date.now })
     gameDate: Date;
 
-    @Prop({ required: true, default: Date.now })
+    @Prop({ required: true })
     score: number;
 }
 

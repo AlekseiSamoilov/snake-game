@@ -38,3 +38,16 @@ export const getTopScores = async (limit: number = 10): Promise<IGameResult[]> =
         throw err;
     }
 };
+
+export const getBestScore = async (limit: number = 1): Promise<IGameResult[]> => {
+    try {
+        const res = await fetch(`${API_URL}/game-results/top-scores?limit=${limit}`);
+        if (!res.ok) {
+            throw new Error('Failed to fetch top best score');
+        }
+        return res.json();
+    } catch (err) {
+        console.log('Error fetching top best score', err);
+        throw err;
+    }
+}

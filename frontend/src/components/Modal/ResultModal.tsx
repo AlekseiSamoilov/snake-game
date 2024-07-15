@@ -27,15 +27,18 @@ const ResultModal: React.FC<iResultModalProps> = ({ onClose, show, name, score})
   if (!show) return null;
   return (
     <div className={styles.overlay}>
-      <div className={styles.modal}>
-        <h2>Top scores</h2>
+      <div className={styles.modal_result}>
+      <h2>Top scores</h2>
+        <div className={styles.result_container}>
         {topScores.map((result, index) => (
         <div key={index} className={styles.result_row}>
         <p className={styles.result_cell}>{result.playerName}</p>
         <p className={styles.result_cell}>{result.score}</p>
+        
         </div>
             ))}
         <button className={styles.close_btn} onClick={onClose}>X</button>
+      </div>
       </div>
     </div>
   )

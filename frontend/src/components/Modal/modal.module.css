@@ -24,6 +24,27 @@
     align-items: center;
     z-index: 100;
   }
+
+  .modal_result {
+    position: relative;
+    background: rgba(172, 227, 45, 0.7);
+    box-shadow: 0 0 10px rgb(172, 227, 45); 
+    padding: 20px;
+    width: 300px;
+    height: 500px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+  }
+
+  .result_container {
+    border: 1px solid red;
+    width: 100%;
+    overflow: scroll;
+    padding: 3px;
+  }
   
   .button {
     padding: 10px 20px;
