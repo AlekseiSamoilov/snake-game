@@ -30,21 +30,21 @@
 }
  
 .invisible {  
-  animation: sizeing 2s infinite;
+  animation: sizeing 1s infinite;
   background-color: fuchsia;
 }
 
 @keyframes sizeing {
   from {
-    transform: scale(0.1);
+    transform: scale(0);
   }
   to {
-    transform: scale(0.5);
+    transform: scale(1);
   }
 }
 
 .blinking { 
-  animation: blinking 0.5s infinite;
+  animation: blinking 2s infinite;
 } 
 
 @keyframes blinking {
