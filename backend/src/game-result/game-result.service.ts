@@ -16,6 +16,10 @@ export class GameResultService {
     }
 
     async findTopScores(limit: number = 10): Promise<GameResult[]> {
-        return this.gameResultModel.find().sort({ score: -1 }).limit(limit).exec();
+        return this.gameResultModel
+            .find()
+            .sort({ score: -1, gameDate: -1 })
+            .limit(limit)
+            .exec();
     }
 }

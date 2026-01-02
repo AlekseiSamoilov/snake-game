@@ -4,6 +4,7 @@ export interface IGameResult {
     playerName: string,
     score: number;
     gameDuration: number;
+    gameDate?: string;
 }
 
 export const saveGameResult = async (result: IGameResult): Promise<void> => {
