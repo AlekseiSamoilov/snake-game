@@ -470,14 +470,9 @@ const App: React.FC = () => {
         userName={userName}
         score={result}
         gameTime={gameTime}
+        bestResult={bestScore ? `${bestScore.playerName}:${bestScore.score}` : '-'}
         onResultOpne={handleResultOpen}
       />
-      userName={userName}
-      score={result}
-      gameTime={gameTime}
-      bestResult={bestScore ? `${bestScore.playerName}:${bestScore.score}` : '-'}
-      onResultOpne={handleResultOpen}
-        />
     </div>
 
   );
