@@ -11,7 +11,7 @@ import { effectDuration } from "./constants/constants";
 import { useEffectQueue } from "./hooks/useEffectQueue";
 import { IFoodEffect } from "./hooks/useEffectQueue";
 import InfoBox from "./components/InfoBox/InfoBox";
-import { saveGameResult } from "./api/gameApi";
+import { getBestScore, IGameResult } from "./api/gameApi";
 
 const App: React.FC = () => {
   const FOOD_INTERVAL = 12;
@@ -42,6 +42,7 @@ const App: React.FC = () => {
   const [isInvulnerable, setIsInvulnerable] = useState<boolean>(false);
   const [result, setResult] = useState<number>(0)
   const [foodTimer, setFoodTimer] = useState(FOOD_INTERVAL);
+  const [bestScore, setBestScore] = useState<IGameResult | null>(null);
 
   const isCoordinateOccupied = (x: number, y: number): boolean => {
     if (snakeDots.some(dot => dot[0] === x && dot[1] === y)) {
@@ -109,6 +110,20 @@ const App: React.FC = () => {
       document.removeEventListener('keydown', handleKeyDown);
     };
   }, [direction, isPaused])
+
+  useEffect(() => {
+    const fetchBestScore = async () => {
+      try {
+        const [bestResult] = await getBestScore(1);
+        setBestScore(bestResult ?? null);
+      } catch (error) {
+        console.log('Failed to fetch best score', error);
+      }
+    };
+    if (!showStartModal) {
+      fetchBestScore();
+    }
+  }, [showStartModal]);
 
   useEffect(() => {
     const snakeMove = () => {
@@ -457,6 +472,12 @@ const App: React.FC = () => {
         gameTime={gameTime}
         onResultOpne={handleResultOpen}
       />
+      userName={userName}
+      score={result}
+      gameTime={gameTime}
+      bestResult={bestScore ? `${bestScore.playerName}:${bestScore.score}` : '-'}
+      onResultOpne={handleResultOpen}
+        />
     </div>
 
   );

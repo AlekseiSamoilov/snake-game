@@ -1,5 +1,7 @@
 # 🐍 Змейка: Стратегическая игра (Snake: Strategic Game)
 
+[![License: CC BY-NC 4.0](https://img.shields.io/badge/License-CC%20BY--NC%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc/4.0/)
+
 [English version below](#english-version)
 
 ## 🎮 О проекте
@@ -22,22 +24,28 @@
 
 1. Клонируйте репозиторий:
    ```
-   git clone https://github.com/your-username/snake-strategic-game.git
+   git clone https://github.com/AlekseiSamoilov/snake-game.git
    ```
-2. Установите зависимости:
+2. Перейдите в директорию проекта:
    ```
-   cd snake-strategic-game
-   npm install
+   cd snake-game
    ```
-3. Запустите сервер разработки:
+3. Установите зависимости с помощью yarn:
    ```
-   npm run dev
+   yarn install
    ```
-4. Откройте [http://localhost:3000](http://localhost:3000) в вашем браузере.
-
+4. Запустите фронтенд:
+   ```
+   yarn start:frontend
+   ```
+5. В отдельном терминале запустите бэкенд:
+   ```
+   yarn start:backend
+   ```
+   
 ## 📄 Лицензия
 
-Этот проект лицензирован под [MIT License](LICENSE).
+Этот проект лицензирован по лицензии CC BY-NC - подробности см. в файле [LICENSE.md](https://github.com/AlekseiSamoilov/snake-game/blob/main/License).
 
 ---
 
@@ -59,23 +67,29 @@
 - Backend: Nest.js
 - Database: MongoDB
 
-## 🚀 Installation and Running
+## 🚀 Installation and Setup
 
 1. Clone the repository:
    ```
-   git clone https://github.com/your-username/snake-strategic-game.git
+   git clone https://github.com/AlekseiSamoilov/snake-game.git
    ```
-2. Install dependencies:
+2. Navigate to the project directory:
    ```
-   cd snake-strategic-game
-   npm install
+   cd snake-game
    ```
-3. Run the development server:
+3. Install dependencies using yarn:
    ```
-   npm run dev
+   yarn install
    ```
-4. Open [http://localhost:3000](http://localhost:3000) in your browser.
+4. Start the frontend:
+   ```
+   yarn start:frontend
+   ```
+5. In a separate terminal, start the backend:
+   ```
+   yarn start:backend
+   ```
 
 ## 📄 License
 
-This project is licensed under the [MIT License](LICENSE).
+This project is licensed under the CC BY-NC License - see the [LICENSE.md](LICENSE.md) file for details.

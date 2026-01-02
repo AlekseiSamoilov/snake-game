@@ -11,6 +11,13 @@ interface iResultModalProps {
 
 const ResultModal: React.FC<iResultModalProps> = ({ onClose, show, name, score }) => {
   const [topScores, setTopScores] = useState<IGameResult[]>([]);
+  const formatGameDate = (gameDate?: string) => {
+    if (!gameDate) {
+      return '-';
+    }
+    return new Date(gameDate).toLocaleString();
+  };
+
   useEffect(() => {
     const fetchTopScores = async () => {
       try {
@@ -34,6 +41,7 @@ const ResultModal: React.FC<iResultModalProps> = ({ onClose, show, name, score }
             <div key={index} className={styles.result_row}>
               <p className={styles.result_cell}>{result.playerName}</p>
               <p className={styles.result_cell}>{result.score}</p>
+              <p className={styles.result_cell}>{formatGameDate(result.gameDate)}</p>
 
             </div>
           ))}
