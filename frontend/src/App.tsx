@@ -491,13 +491,15 @@ const App: React.FC = () => {
           </>
         )}
         {/* <div className={style.speed_window}>{speed}</div> */}
-        {isPaused && (
-          <div className={style.pause}>
-            <span>PAUSE</span>
+      {isPaused && (
+        <div className={style.pause}>
+          <div className={style.pause_panel}>
+            <span className={style.pause_title}>PAUSE</span>
             <span className={style.pause_tip}>press spacebar for continue</span>
           </div>
+          </div>
 
-        )}
+      )}
 
       </div>
       <InfoBox
