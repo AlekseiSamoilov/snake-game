@@ -12,6 +12,7 @@ import { useEffectQueue } from "./hooks/useEffectQueue";
 import { IFoodEffect } from "./hooks/useEffectQueue";
 import InfoBox from "./components/InfoBox/InfoBox";
 import { getBestScore, IGameResult } from "./api/gameApi";
+import { initializeAnalytics, trackEvent } from "./utils/analytics";
 
 const App: React.FC = () => {
   const FOOD_INTERVAL = 12;
@@ -43,6 +44,12 @@ const App: React.FC = () => {
   const [result, setResult] = useState<number>(0)
   const [foodTimer, setFoodTimer] = useState(FOOD_INTERVAL);
   const [bestScore, setBestScore] = useState<IGameResult | null>(null);
+  const previousPausedState = useRef<boolean>(false);
+  const previousGameOverState = useRef<boolean>(false);
+
+  useEffect(() => {
+    initializeAnalytics();
+  }, []);
 
   const isCoordinateOccupied = (x: number, y: number): boolean => {
     if (snakeDots.some(dot => dot[0] === x && dot[1] === y)) {
@@ -263,7 +270,11 @@ const App: React.FC = () => {
         applyFoodEffect(foodType);
         handleFoodConsumption(foodType);
         increaseBaseSpeed();
-        setResult(result + 1);
+        setResult((prevResult) => {
+          const nextResult = prevResult + 1;
+          trackEvent("food_collected", { gameTime, result: nextResult });
+          return nextResult;
+        });
         resetFood();
       }
     };
@@ -297,7 +308,7 @@ const App: React.FC = () => {
     checkIfCollapsed();
     checkIfEat();
     adjustSpeed();
-  }, [snakeDots, food, speed, foodType, activeEffects]);
+  }, [snakeDots, food, speed, foodType, activeEffects, gameTime]);
 
   useEffect(() => {
     let timer: NodeJS.Timeout;
@@ -310,6 +321,28 @@ const App: React.FC = () => {
     }
     return () => clearInterval(timer);
   }, [isPaused, isGameOver, showStartModal, isResult, cutTails]);
+
+  useEffect(() => {
+    const wasPaused = previousPausedState.current;
+    if (
+      isPaused &&
+      !wasPaused &&
+      !showStartModal &&
+      !isGameOver &&
+      !isResult
+    ) {
+      trackEvent("game_pause", { gameTime, result });
+    }
+    previousPausedState.current = isPaused;
+  }, [isPaused, showStartModal, isGameOver, isResult, gameTime, result]);
+
+  useEffect(() => {
+    const wasGameOver = previousGameOverState.current;
+    if (isGameOver && !wasGameOver) {
+      trackEvent("game_over", { gameTime, result });
+    }
+    previousGameOverState.current = isGameOver;
+  }, [isGameOver, gameTime, result]);
 
 
   useEffect(() => {
@@ -371,6 +404,7 @@ const App: React.FC = () => {
     setIsPathFindingEnabled(enablePathFinding);
     setGameTime(0);
     setResult(0)
+    trackEvent("game_start", { gameTime: 0, result: 0 });
   };
 
   const resetGame = () => {
