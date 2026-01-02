@@ -10,6 +10,7 @@
         "start:backend": "yarn workspace backend start"
     },
     "dependencies": {
-        "@nestjs/config": "^3.2.3"
+        "@nestjs/config": "^3.2.3",
+        "@svgdotjs/svg.js": "^3.2.4"
     }
 }

@@ -3,20 +3,20 @@ import styles from './modal.module.css'
 import { getTopScores, IGameResult } from '../../api/gameApi';
 
 interface iResultModalProps {
-    show: boolean;
-    name: string;
-    score: number;
-    onClose: () => void;
+  show: boolean;
+  name: string;
+  score: number;
+  onClose: () => void;
 }
 
-const ResultModal: React.FC<iResultModalProps> = ({ onClose, show, name, score}) => {
+const ResultModal: React.FC<iResultModalProps> = ({ onClose, show, name, score }) => {
   const [topScores, setTopScores] = useState<IGameResult[]>([]);
   useEffect(() => {
     const fetchTopScores = async () => {
       try {
         const scores = await getTopScores(10);
         setTopScores(scores);
-      } catch(error) {
+      } catch (error) {
         console.log('Failed to fetch top scores', error);
       }
     };
@@ -28,17 +28,17 @@ const ResultModal: React.FC<iResultModalProps> = ({ onClose, show, name, score})
   return (
     <div className={styles.overlay}>
       <div className={styles.modal_result}>
-      <h2>Top scores</h2>
+        <h2>Top scores</h2>
         <div className={styles.result_container}>
-        {topScores.map((result, index) => (
-        <div key={index} className={styles.result_row}>
-        <p className={styles.result_cell}>{result.playerName}</p>
-        <p className={styles.result_cell}>{result.score}</p>
-        
+          {topScores.map((result, index) => (
+            <div key={index} className={styles.result_row}>
+              <p className={styles.result_cell}>{result.playerName}</p>
+              <p className={styles.result_cell}>{result.score}</p>
+
+            </div>
+          ))}
+          <button className={styles.close_btn} onClick={onClose}>X</button>
         </div>
-            ))}
-        <button className={styles.close_btn} onClick={onClose}>X</button>
-      </div>
       </div>
     </div>
   )

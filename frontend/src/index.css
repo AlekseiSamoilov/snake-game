@@ -8,8 +8,8 @@
 body {
   /* background-color: #17918F; */
   background-image: url(./assests/img/background_1.webp);
-  background-size: cover;
-  background-position: 50% 50%;
+  background-size: contain;
+  background-position: 50% 10%;
   margin: 0 auto;
   font-family: 'Undertale_Battle_Font', BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',

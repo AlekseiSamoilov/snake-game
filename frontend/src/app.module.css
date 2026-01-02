@@ -4,11 +4,9 @@
   align-items: center;
   justify-content: space-between;
   flex-direction: column;
-  /* gap: 10px; */
 }
 
 .game_area {
-  
   padding: 0;
   margin: 0 auto;
   position: relative;

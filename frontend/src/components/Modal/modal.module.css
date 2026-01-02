@@ -1,5 +1,6 @@
 .overlay {
-    position: fixed;
+  
+  position: fixed;
     top: 0;
     left: 0;
     right: 0;
@@ -10,14 +11,13 @@
     align-items: center;
     z-index: 5;
   }
-  
+   
   .modal {
     position: relative;
     background: rgba(172, 227, 45, 0.7);
     box-shadow: 0 0 10px rgb(172, 227, 45); 
     padding: 20px;
     width: 250px;
-    height: 250px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -57,10 +57,10 @@
     font-family: 'Undertale_Battle_Font';
     font-weight: 800;
     color: #C0DC80;
+  
   }
   .button:hover {
-    /* animation: btn_focus 4s ease; */
-    transform: scale(1.1);
+    transform: scale(1.05);
   }
 
   .title {
@@ -145,7 +145,7 @@
     width: 25px;
     background-color: #eee;
     border: 2px solid #ccc;
-    border-radius: 0; /* Углы не скруглены */
+    border-radius: 0; 
   }
   
   .custom_checkbox input:checked + .checkmark {
@@ -173,3 +173,12 @@
     transform: rotate(45deg);
   }
   
+  .svg {
+    margin-top: 20px;
+    width: 150px;
+    height: 150px;
+    border: 1px solid red;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+  }

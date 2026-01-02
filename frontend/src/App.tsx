@@ -14,11 +14,11 @@ import InfoBox from "./components/InfoBox/InfoBox";
 import { saveGameResult } from "./api/gameApi";
 
 const App: React.FC = () => {
-    const FOOD_INTERVAL = 12;
+  const FOOD_INTERVAL = 12;
 
   const [snakeDots, setSnakeDots] = useState<number[][]>([
     [0, 2],
-    [2, 0] 
+    [2, 0]
   ]);
   const [direction, setDirection] = useState<string>('RIGHT');
   const [speed, setSpeed] = useState<number>(400);
@@ -37,7 +37,7 @@ const App: React.FC = () => {
   const [isResult, setIsResult] = useState<boolean>(false);
   const addEffectToQueue = useEffectQueue(setActiveEffects);
   const [isPathFindingEnabled, setIsPathFindingEnabled] = useState<boolean>(false);
-  const [gameTime, setGameTime] = useState<number>(0); 
+  const [gameTime, setGameTime] = useState<number>(0);
   const [cutTails, setCutTails] = useState<number[][][]>([]);
   const [isInvulnerable, setIsInvulnerable] = useState<boolean>(false);
   const [result, setResult] = useState<number>(0)
@@ -47,7 +47,7 @@ const App: React.FC = () => {
     if (snakeDots.some(dot => dot[0] === x && dot[1] === y)) {
       return true;
     }
-    return cutTails.some(tail => 
+    return cutTails.some(tail =>
       tail.some(dot => dot[0] === x && dot[1] === y)
     );
   };
@@ -60,38 +60,38 @@ const App: React.FC = () => {
         Math.floor((Math.random() * 49)) * 2
       ];
     } while (isCoordinateOccupied(newCoord[0], newCoord[1]));
-    
+
     return newCoord;
   };
 
   const [food, setFood] = useState<number[]>(getRandomCoordinates());
 
-  useEffect(() => { 
+  useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      switch(e.key) {
+      switch (e.key) {
         case "ArrowUp":
         case "W":
         case "w":
           if (direction !== 'DOWN')
-          setDirection("UP");
+            setDirection("UP");
           break;
         case "ArrowDown":
         case "S":
         case "s":
           if (direction !== "UP")
-          setDirection("DOWN");
+            setDirection("DOWN");
           break;
         case "ArrowLeft":
         case "A":
         case "a":
           if (direction !== 'RIGHT')
-          setDirection("LEFT");
+            setDirection("LEFT");
           break;
         case "ArrowRight":
         case "D":
         case "d":
           if (direction !== 'LEFT')
-          setDirection("RIGHT");
+            setDirection("RIGHT");
           break;
         case " ":
           setIsPaused(!isPaused);
@@ -118,7 +118,7 @@ const App: React.FC = () => {
         case "RIGHT":
           head = [head[0] + 2, head[1]];
           break;
-        case "LEFT": 
+        case "LEFT":
           head = [head[0] - 2, head[1]];
           break;
         case "UP":
@@ -158,7 +158,7 @@ const App: React.FC = () => {
       return newSnake;
     });
   };
-  
+
   const applyFoodEffect = (type: string): IFoodEffect | null => {
     switch (type) {
       case "blue":
@@ -181,7 +181,7 @@ const App: React.FC = () => {
     setFoodType(getRandomFoodType());
     setFoodTimer(FOOD_INTERVAL);
   }, []);
-  
+
   const startFoodTimer = useCallback(() => {
     if (!isGameOver && !showStartModal && !isPaused) {
       const timer = setInterval(() => {
@@ -193,7 +193,7 @@ const App: React.FC = () => {
           return prevTimer - 1;
         });
       }, 1000);
-  
+
       return timer;
     }
   }, [resetFood, isGameOver, showStartModal, isPaused]);
@@ -207,8 +207,8 @@ const App: React.FC = () => {
 
   useEffect(() => {
     const enlargeSnake = () => {
-      let newSnake = [...snakeDots]; 
-      newSnake.unshift([]);
+      let newSnake = [...snakeDots];
+      newSnake.unshift([], []);
       setSnakeDots(newSnake);
     };
 
@@ -218,20 +218,20 @@ const App: React.FC = () => {
         if (prevSpeed > 200) return prevSpeed - 7;
         if (prevSpeed > 120) return prevSpeed - 2;
         if (prevSpeed > 50) return prevSpeed - 1;
-        return 50; 
+        return 50;
       });
     };
 
-    const adjustSpeed = () => { 
+    const adjustSpeed = () => {
       let newSpeed = baseSpeed;
       activeEffects.forEach(effect => {
         if (effect === 'speedUp') {
           newSpeed = 75;
         } else if (effect === 'speedDown') {
-          newSpeed = 700; 
+          newSpeed = 700;
         }
       });
-      setSpeed(newSpeed); 
+      setSpeed(newSpeed);
     };
 
     const handleFoodConsumption = (type) => {
@@ -250,7 +250,7 @@ const App: React.FC = () => {
         increaseBaseSpeed();
         setResult(result + 1);
         resetFood();
-      }  
+      }
     };
 
     const checkIfCollapsed = () => {
@@ -272,7 +272,7 @@ const App: React.FC = () => {
           setCutTails(prevTails => [...prevTails, newTail]);
           setSnakeDots(prevDots => prevDots.slice(i + 1));
           setIsInvulnerable(true);
-          setTimeout(() => setIsInvulnerable(false), 1500); 
+          setTimeout(() => setIsInvulnerable(false), 1500);
           return true;
         }
       }
@@ -282,7 +282,6 @@ const App: React.FC = () => {
     checkIfCollapsed();
     checkIfEat();
     adjustSpeed();
-    // foodTimer();
   }, [snakeDots, food, speed, foodType, activeEffects]);
 
   useEffect(() => {
@@ -296,8 +295,7 @@ const App: React.FC = () => {
     }
     return () => clearInterval(timer);
   }, [isPaused, isGameOver, showStartModal, isResult, cutTails]);
-  
-  
+
 
   useEffect(() => {
     const findPath = () => {
@@ -350,7 +348,6 @@ const App: React.FC = () => {
   }, [snakeDots, cutTails]);
 
 
-  
   const startGame = (name: string, enablePathFinding: boolean) => {
     setUserName(name)
     setShowStartModal(false);
@@ -399,69 +396,69 @@ const App: React.FC = () => {
     setIsPaused(true)
   }
 
-  return(
+  return (
     <div className={style.main_window}>
       <div className={style.game_area}>
-      <StartModal
-        show={showStartModal}
-        onStart={startGame}
-      />
-      <EndModal
-        show={isGameOver}
-        score={result}
-        onPlayAgain={resetGame}
-        onNewUser={handleNewUser}
-        playerName={userName}
-        gameDuration={gameTime}
-      />
-      <ResultModal 
-        show={isResult}
-        score={result}
-        name={userName}
-        onClose={handleClose} />
-      {!isGameOver && !showStartModal && (
-        <>
-         <Snake snakeDots={snakeDots} isInvisible={isInvisible} isBlinking={isBlinking} isFreez={isFreez} isHot={isHot} cutTails={cutTails} isInvulnerable={isInvulnerable} />
-         <Food dot={food} type={foodType} />
-          <svg className={style.path_svg}>
-            {path.map((step, index) => {
-              if (index === 0) return null;
-              const prevStep = path[index - 1];
-              const offset = 1
-              return (
-                <line
-                  key={index}
-                  x1={`${prevStep[0] + offset}%`}
-                  y1={`${prevStep[1] + offset}%`}
-                  x2={`${step[0] + offset}%`}
-                  y2={`${step[1] + offset}%`}
-                  stroke="yellow"
-                  strokeWidth="3"
-                  strokeDasharray="5, 5"
-                />
-              );
-            })}
-          </svg>
-        </>
-      )}
-      <div className={style.speed_window}>{speed}</div>
-      {isPaused && (
-        <div className={style.pause}>
-          <span>PAUSE</span>
-          <span className={style.pause_tip}>press spacebar for continue</span>
+        <StartModal
+          show={showStartModal}
+          onStart={startGame}
+        />
+        <EndModal
+          show={isGameOver}
+          score={result}
+          onPlayAgain={resetGame}
+          onNewUser={handleNewUser}
+          playerName={userName}
+          gameDuration={gameTime}
+        />
+        <ResultModal
+          show={isResult}
+          score={result}
+          name={userName}
+          onClose={handleClose} />
+        {!isGameOver && !showStartModal && (
+          <>
+            <Snake snakeDots={snakeDots} isInvisible={isInvisible} isBlinking={isBlinking} isFreez={isFreez} isHot={isHot} cutTails={cutTails} isInvulnerable={isInvulnerable} />
+            <Food dot={food} type={foodType} />
+            <svg className={style.path_svg}>
+              {path.map((step, index) => {
+                if (index === 0) return null;
+                const prevStep = path[index - 1];
+                const offset = 1
+                return (
+                  <line
+                    key={index}
+                    x1={`${prevStep[0] + offset}%`}
+                    y1={`${prevStep[1] + offset}%`}
+                    x2={`${step[0] + offset}%`}
+                    y2={`${step[1] + offset}%`}
+                    stroke="yellow"
+                    strokeWidth="3"
+                    strokeDasharray="5, 5"
+                  />
+                );
+              })}
+            </svg>
+          </>
+        )}
+        {/* <div className={style.speed_window}>{speed}</div> */}
+        {isPaused && (
+          <div className={style.pause}>
+            <span>PAUSE</span>
+            <span className={style.pause_tip}>press spacebar for continue</span>
           </div>
 
-      )}
-      
+        )}
+
       </div>
       <InfoBox
-          userName={userName}
-          score={result}
-          gameTime={gameTime}
-          onResultOpne={handleResultOpen}
-        />
+        userName={userName}
+        score={result}
+        gameTime={gameTime}
+        onResultOpne={handleResultOpen}
+      />
     </div>
-    
+
   );
 };
 
