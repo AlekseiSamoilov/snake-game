@@ -33,6 +33,22 @@
   background-color: #2b924f;
 }
 
+.snake_head_right {
+  border-radius: 10% 50% 50% 10%;
+}
+
+.snake_head_left {
+  border-radius: 50% 10% 10% 50%;
+}
+
+.snake_head_up {
+  border-radius: 50% 50% 10% 10%;
+}
+
+.snake_head_down {
+  border-radius: 10% 10% 50% 50%;
+}
+
 
  
 .invisible {  

@@ -472,7 +472,7 @@ const App: React.FC = () => {
           onClose={handleClose} />
         {!isGameOver && !showStartModal && (
           <>
-            <Snake snakeDots={snakeDots} isInvisible={isInvisible} isBlinking={isBlinking} isFreez={isFreez} isHot={isHot} cutTails={cutTails} isInvulnerable={isInvulnerable} />
+            <Snake snakeDots={snakeDots} direction={direction} isInvisible={isInvisible} isBlinking={isBlinking} isFreez={isFreez} isHot={isHot} cutTails={cutTails} isInvulnerable={isInvulnerable} />
             <Food dot={food} type={foodType} />
             <svg className={style.path_svg}>
               {path.map((step, index) => {
