@@ -16,7 +16,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(180deg, rgba(14, 26, 19, 0.98), rgba(7, 12, 9, 0.98));
+  background: linear-gradient(180deg, rgba(14, 26, 19, 0.1), rgba(7, 12, 9, 0.1));
   border-radius: 20px;
   border: 1px solid rgba(121, 201, 168, 0.35);
   box-shadow:
