@@ -2,11 +2,12 @@
     position: absolute;
     width: 2%;
     height: 2%;
-    background-color: #eeff00;
+    background-color: #37c96b;
     border: solid 0.5px rgb(173, 176, 173);
+    border-radius: 15%;
     animation: fadeOut 3s infinite;
-    --border-snake-50: solid 1px #22d63a;
-    --border-snake-100: solid 1px #ff4d07;
+    --border-snake-50: solid 1px #2aa557;
+    --border-snake-100: solid 1px #57e08c;
     box-shadow: 0 0 3px rgb(0, 0, 0); 
     z-index: 4;
 
@@ -27,6 +28,12 @@
     border: var(--border-snake-100);
   }
 }
+
+.snake_head {
+  background-color: #2b924f;
+}
+
+
  
 .invisible {  
   animation: sizeing 1s infinite;
@@ -106,4 +113,3 @@
   from { border: 1px solid rgb(255, 0, 0); }
   to { border: 1px solid rgb(142, 142, 142); }
 }
-

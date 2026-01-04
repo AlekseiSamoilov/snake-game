@@ -6,11 +6,9 @@ import React from "react";
 import StartModal from "./components/Modal/StartModal";
 import EndModal from "./components/Modal/EndModal";
 import ResultModal from "./components/Modal/ResultModal";
-import { getRandomFoodType } from "./constants/constants";
-import { effectDuration } from "./constants/constants";
+import { getRandomFoodType, effectDuration, formatTime } from "./constants/constants";
 import { useEffectQueue } from "./hooks/useEffectQueue";
 import { IFoodEffect } from "./hooks/useEffectQueue";
-import InfoBox from "./components/InfoBox/InfoBox";
 import { getBestScore, IGameResult } from "./api/gameApi";
 import { initializeAnalytics, trackEvent } from "./utils/analytics";
 
@@ -76,6 +74,15 @@ const App: React.FC = () => {
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
+      const target = e.target as HTMLElement | null;
+      if (
+        target &&
+        (target.tagName === "INPUT" ||
+          target.tagName === "TEXTAREA" ||
+          target.isContentEditable)
+      ) {
+        return;
+      }
       switch (e.key) {
         case "ArrowUp":
         case "W":
@@ -104,7 +111,9 @@ const App: React.FC = () => {
         case " ":
           setIsPaused(!isPaused);
           break;
-        case "Shift":
+        case "R":
+        case "r":
+          if (showStartModal) return;
           setIsPaused(!isPaused)
           setIsResult(prev => !prev);
           break;
@@ -116,7 +125,7 @@ const App: React.FC = () => {
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
     };
-  }, [direction, isPaused])
+  }, [direction, isPaused, showStartModal])
 
   useEffect(() => {
     const fetchBestScore = async () => {
@@ -440,10 +449,6 @@ const App: React.FC = () => {
     setIsPaused(prev => !prev)
   }
 
-  const handleResultOpen = () => {
-    setIsResult(true);
-    setIsPaused(true)
-  }
 
   return (
     <div className={style.main_window}>
@@ -491,24 +496,27 @@ const App: React.FC = () => {
           </>
         )}
         {/* <div className={style.speed_window}>{speed}</div> */}
-      {isPaused && (
-        <div className={style.pause}>
-          <div className={style.pause_panel}>
-            <span className={style.pause_title}>PAUSE</span>
-            <span className={style.pause_tip}>press spacebar for continue</span>
-          </div>
+        {isPaused && (
+          <div className={style.pause}>
+            <div className={style.pause_panel}>
+              <span className={style.pause_title}>PAUSE</span>
+              <span className={style.pause_tip}>press spacebar for continue</span>
+              <div className={style.pause_info}>
+                <span className={style.pause_label}>current</span>
+                <span className={style.pause_value}>{userName}:{result}</span>
+                <span className={style.pause_label}>best</span>
+                <span className={style.pause_value}>
+                  {bestScore ? `${bestScore.playerName}:${bestScore.score}` : '-'}
+                </span>
+                <span className={style.pause_label}>time</span>
+                <span className={style.pause_value}>{formatTime(gameTime)}</span>
+              </div>
+            </div>
           </div>
 
-      )}
+        )}
 
       </div>
-      <InfoBox
-        userName={userName}
-        score={result}
-        gameTime={gameTime}
-        bestResult={bestScore ? `${bestScore.playerName}:${bestScore.score}` : '-'}
-        onResultOpne={handleResultOpen}
-      />
     </div>
 
   );

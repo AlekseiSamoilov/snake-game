@@ -18,6 +18,7 @@ const Snake: React.FC<ISnakeProps> = ({ snakeDots, isInvisible, isBlinking, isFr
             <div 
             className={
             `${style.snake_dot} 
+            ${i === snakeDots.length - 1 ? style.snake_head : ''}
             ${isInvisible ? style.invisible : ''} 
             ${isBlinking ? style.blinking : ''} 
             ${isFreez ? style.freez : ''} 

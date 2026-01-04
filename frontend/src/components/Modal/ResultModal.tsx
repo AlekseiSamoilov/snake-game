@@ -21,7 +21,7 @@ const ResultModal: React.FC<iResultModalProps> = ({ onClose, show, name, score }
   useEffect(() => {
     const fetchTopScores = async () => {
       try {
-        const scores = await getTopScores(10);
+        const scores = await getTopScores(20);
         setTopScores(scores);
       } catch (error) {
         console.log('Failed to fetch top scores', error);
@@ -35,7 +35,7 @@ const ResultModal: React.FC<iResultModalProps> = ({ onClose, show, name, score }
   return (
     <div className={styles.overlay}>
       <div className={styles.modal_result}>
-        <h2>Top scores</h2>
+        <h2 className={styles.result_title}>Top scores</h2>
         <div className={styles.result_container}>
           {topScores.map((result, index) => (
             <div key={index} className={styles.result_row}>

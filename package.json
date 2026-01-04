@@ -6,8 +6,8 @@
         "backend"
     ],
     "scripts": {
-        "start:frontend": "yarn workspace frontend start",
-        "start:backend": "yarn workspace backend start"
+        "start:frontend": "npm --workspace frontend run start",
+        "start:backend": "npm --workspace backend run start"
     },
     "dependencies": {
         "@nestjs/config": "^3.2.3",

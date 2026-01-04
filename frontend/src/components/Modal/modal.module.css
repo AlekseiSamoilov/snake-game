@@ -32,7 +32,7 @@
     border: 1px solid rgba(121, 201, 168, 0.5);
     box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
     padding: 24px;
-    width: 340px;
+    width: 520px;
     height: 520px;
     border-radius: 16px;
     display: flex;
@@ -103,13 +103,25 @@
   }
 
 
+  .result_title {
+    color: #ffffff;
+  }
+
   .result_row {
-    display: flex;
-    justify-content: space-between;
-    gap: 30px;
+    display: grid;
+    grid-template-columns: 160px 80px 1fr;
+    gap: 16px;
     font-size: 18px;
     width: 100%;
     color: #e8f5ef;
+    padding: 6px 0;
+  }
+
+  .result_cell {
+    margin: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   .close_btn {
@@ -199,4 +211,47 @@
     display: flex;
     align-items: center;
     box-sizing: border-box;
+  }
+
+  .modal_info {
+    position: relative;
+    background: linear-gradient(160deg, rgba(22, 41, 30, 0.98), rgba(12, 24, 18, 0.98));
+    border: 1px solid rgba(121, 201, 168, 0.5);
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
+    padding: 24px 28px;
+    width: 360px;
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 100;
+  }
+
+  .info_title {
+    margin: 0 0 16px;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    font-size: 24px;
+    color: #e8f5ef;
+  }
+
+  .info_grid {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 10px 16px;
+    font-size: 18px;
+    width: 100%;
+  }
+
+  .info_label {
+    color: rgba(245, 247, 250, 0.7);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 12px;
+  }
+
+  .info_value {
+    font-size: 18px;
+    font-weight: 600;
+    color: #f5f7fa;
   }
