@@ -3,6 +3,7 @@ import Snake from "./components/Snake/Snake";
 import Food from "./components/Food/Food";
 import style from './app.module.css';
 import React from "react";
+import BackgroundParticles from "./components/BackgroundParticles/BackgroundParticles";
 import StartModal from "./components/Modal/StartModal";
 import EndModal from "./components/Modal/EndModal";
 import ResultModal from "./components/Modal/ResultModal";
@@ -452,6 +453,7 @@ const App: React.FC = () => {
 
   return (
     <div className={style.main_window}>
+      <BackgroundParticles />
       <div className={style.game_area}>
         <StartModal
           show={showStartModal}

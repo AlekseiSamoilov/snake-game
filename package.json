@@ -11,6 +11,9 @@
     },
     "dependencies": {
         "@nestjs/config": "^3.2.3",
-        "@svgdotjs/svg.js": "^3.2.4"
+        "@svgdotjs/svg.js": "^3.2.4",
+        "@tsparticles/react": "^3.0.0",
+        "@tsparticles/slim": "^3.9.1",
+        "tsparticles-engine": "^2.12.0"
     }
 }
