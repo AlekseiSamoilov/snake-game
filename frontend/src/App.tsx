@@ -6,6 +6,7 @@ import React from "react";
 import StartModal from "./components/Modal/StartModal";
 import EndModal from "./components/Modal/EndModal";
 import ResultModal from "./components/Modal/ResultModal";
+import BackgroundParticles from "./components/BackgroundParticles/BackgroundParticles";
 import { getRandomFoodType, effectDuration, formatTime } from "./constants/constants";
 import { useEffectQueue } from "./hooks/useEffectQueue";
 import { IFoodEffect } from "./hooks/useEffectQueue";
@@ -452,6 +453,7 @@ const App: React.FC = () => {
 
   return (
     <div className={style.main_window}>
+      <BackgroundParticles />
       <div className={style.game_area}>
         <StartModal
           show={showStartModal}
@@ -472,7 +474,7 @@ const App: React.FC = () => {
           onClose={handleClose} />
         {!isGameOver && !showStartModal && (
           <>
-            <Snake snakeDots={snakeDots} isInvisible={isInvisible} isBlinking={isBlinking} isFreez={isFreez} isHot={isHot} cutTails={cutTails} isInvulnerable={isInvulnerable} />
+            <Snake snakeDots={snakeDots} direction={direction} isInvisible={isInvisible} isBlinking={isBlinking} isFreez={isFreez} isHot={isHot} cutTails={cutTails} isInvulnerable={isInvulnerable} />
             <Food dot={food} type={foodType} />
             <svg className={style.path_svg}>
               {path.map((step, index) => {
